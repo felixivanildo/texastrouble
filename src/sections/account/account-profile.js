@@ -69,6 +69,7 @@
 // );
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Avatar,
   Box,
@@ -95,11 +96,11 @@ export const AccountProfile = () => {
     const fetchUserFromDatabase = async () => {
       try {
         // Replace this with your actual database fetch logic
-        const response = await axios.get('http://10.254.4.132:3010/api/id'); // Assuming you have an API endpoint for fetching user data
+        const response = await AsyncStorage.getItem('@user') // Assuming you have an API endpoint for fetching user data
         // console.log(response.body)
         // const userData = await response.json();
-        console.log(response.data[0])
-        setUser(response.data[0]);
+        // console.log(response)
+        setUser(JSON.parse(response));
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -135,8 +136,12 @@ export const AccountProfile = () => {
             {user.name}
           </Typography>
           <Typography color="text.secondary" variant="body2">
+            {user.jobTitle}
+          </Typography>
+          <Typography color="text.secondary" variant="body2">
             {user.city} {user.country}
           </Typography>
+          
           <Typography color="text.secondary" variant="body2">
             {user.timezone}
           </Typography>

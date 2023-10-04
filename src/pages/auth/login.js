@@ -41,10 +41,10 @@ const Page = () => {
         .required('Password is required')
     }),
     onSubmit: async (values, helpers) => {
-      console.log(values)
+   
       try {
         await auth.signIn(values.email, values.password);
-        // router.push('/');
+        router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

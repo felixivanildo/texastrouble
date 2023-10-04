@@ -34,10 +34,11 @@ const Page = () => {
         .required('Password is required')
     }),
     onSubmit: async (values, helpers) => {
-      console.log(values)
+      
       try {
-        await auth.signUp(values.email, values.name, values.password);
-        router.push('/');
+        console.log(values.email, values.usuario, values.name, values.password)
+        await auth.signUp(values.email, values.usuario, values.name, values.password);
+        // router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -99,21 +100,21 @@ const Page = () => {
             >
               <Stack spacing={3}>
               <TextField
-                  error={!!(formik.touched.name && formik.errors.name)}
+                  error={!!(formik.touched.usuario && formik.errors.usuario)}
                   fullWidth
-                  helperText={formik.touched.name && formik.errors.name}
-                  label="Usuario"
+                  helperText={formik.touched.usuario && formik.errors.usuario}
+                  label="Nome"
                   name="usuario"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  value={formik.values.name}
+                  value={formik.values.usuario}
                 />
 
                 <TextField
                   error={!!(formik.touched.name && formik.errors.name)}
                   fullWidth
                   helperText={formik.touched.name && formik.errors.name}
-                  label="Nome"
+                  label="Sobrenome"
                   name="name"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}

@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -128,8 +130,11 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
+    const validation = await axios.put('http://10.254.4.132:3010/api/login', {user: email, pass: password})
+
+    console.log(validation.data.info)
+    if (validation.data.message !== '616e6420617320697420626567696e732c206c696b6520746865206120666c617368206974206661646573206f7574' ) {
+      throw new Error('Verifique seu email e senha');
     }
 
     try {
@@ -139,11 +144,23 @@ export const AuthProvider = (props) => {
     }
 
     const user = {
-      id: '5e86809283e28b96d2d38537',
+      id: String(validation.data.info.userid),
       avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      name: validation.data.info.firstname +' '+ validation.data.info.lastname,
+      email: validation.data.info.username,
+      role: validation.data.info.role,
+      country: validation.data.info.country,
+      city: validation.data.info.city,
+      jobTitle: validation.data.info.jobttitle,    
+      lastName: validation.data.info.lastname,
+      state: validation.data.info.city,
+      firstName: validation.data.info.firstname
     };
+
+    // console.log(user)
+    await AsyncStorage.setItem('@user', JSON.stringify(user))
+
+
 
     dispatch({
       type: HANDLERS.SIGN_IN,
@@ -151,12 +168,19 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (email, name, lastname, password) => {
+  
+    try {
+        await axios.post('http://10.254.4.132:3010/api/registrar', {email: email, firstname: name, lastname: lastname, password:password}).then((e)=>{
+          alert(e.data)
+        })
+    } catch (error) {
+      console.error(err);
+    }
   };
 
   const signOut = () => {
-    dispatch({
+        dispatch({
       type: HANDLERS.SIGN_OUT
     });
   };

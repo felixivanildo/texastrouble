@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -10,6 +10,7 @@ import {
   TextField,
   Unstable_Grid2 as Grid
 } from '@mui/material';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const states = [
   {
@@ -39,6 +40,23 @@ export const AccountProfileDetails = () => {
     state: 'los-angeles',
     country: 'USA'
   });
+
+  useEffect(()=>{
+    const fetchUserFromDatabase = async () => {
+      try {
+        // Replace this with your actual database fetch logic
+        const response = await AsyncStorage.getItem('@user') // Assuming you have an API endpoint for fetching user data
+        // console.log(response.body)
+        // const userData = await response.json();
+        console.log(JSON.parse(response))
+        setValues(JSON.parse(response));
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUserFromDatabase();
+  },[])
 
   const handleChange = useCallback(
     (event) => {
