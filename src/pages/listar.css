@@ -42,6 +42,24 @@ h1{
     margin-left: 0%;
 }
 
+div::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
+html::-webkit-scrollbar {
+    width: 20px;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-image: url('https://i.ibb.co/1RHr40z/248599.png'); 
+    background-repeat: no-repeat, no-repeat;
+    background-size: 20px;
+}
+
 
 @media (max-width: 800px) {
     .styled-table {

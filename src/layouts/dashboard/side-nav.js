@@ -89,6 +89,7 @@ export const SideNav = (props) => {
           </Box>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
+        <div style={{height: "100%",  msOverflowStyle: "none", scrollbarWidth: "none", overflowY: "scroll"}}>
         <Box
           component="nav"
           sx={{
@@ -123,6 +124,7 @@ export const SideNav = (props) => {
             })}
           </Stack>
         </Box>
+        </div>
         <Divider sx={{ borderColor: 'neutral.700' }} />
         <Box
           sx={{

@@ -39,6 +39,7 @@ export const items = [
       </SvgIcon>
     )
   },
+  
   {
     title: 'Contatos e Redes',
     path: '/companies',
