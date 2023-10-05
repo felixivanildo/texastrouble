@@ -64,7 +64,7 @@ const Page = () => {
                 {arrayteste.map((row, index) => {
                     return(
                     <tr   className="active-row" key={index}>
-                        <td >{row.firstname}</td>
+                        <td>{row.firstname}</td>
                         <td>{row.phone}</td>
                         <td>{row.country}</td>
                         <td>{row.city}</td>

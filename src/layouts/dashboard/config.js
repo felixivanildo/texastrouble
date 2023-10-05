@@ -5,6 +5,7 @@ import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
 import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import AddIcon from '@mui/icons-material/Add';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
 import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
@@ -26,6 +27,15 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Criar laudo',
+    path: '/formulario_laboratorio',
+    icon: (
+      <SvgIcon fontSize="small">
+        <PostAddIcon />
       </SvgIcon>
     )
   },
