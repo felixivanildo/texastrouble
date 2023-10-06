@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -13,7 +13,12 @@ import { applyPagination } from 'src/utils/apply-pagination';
 
 const now = new Date();
 
-const data = [
+
+const Page = () => {
+const [searchTerm, setSearchTerm] = useState('');
+  
+
+const [data, setData] = useState  ([
   {
     id: '5e887ac47eed253091be10cb',
     address: {
@@ -154,7 +159,33 @@ const data = [
     name: 'Nasimiyu Danai',
     phone: '801-301-7894'
   }
-];
+]);
+
+const handleSearch = (value) => {
+  // console.log('Search value:', value);
+  setSearchTerm(value);
+
+  const filteredData = data.filter((item) => {
+    return (
+      item.name.toLowerCase().includes(value.toLowerCase()) ||
+      item.email.toLowerCase().includes(value.toLowerCase()) ||
+      item.phone.includes(value)
+      // Add more conditions based on other properties you want to search
+      // ...
+    );
+  });
+
+  const sortedData = filteredData.sort((a, b) => {
+    return a.name.localeCompare(b.name);
+    // You can customize the sorting logic based on your requirements
+  });
+
+  
+  setData(sortedData)
+  setCustormers(useCustomers(page, rowsPerPage))
+  console.log(data)
+  
+};
 
 const useCustomers = (page, rowsPerPage) => {
   return useMemo(
@@ -174,10 +205,9 @@ const useCustomerIds = (customers) => {
   );
 };
 
-const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
+  const [customers, setCustormers] = useState (useCustomers(page, rowsPerPage))
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
 
@@ -260,7 +290,7 @@ const Page = () => {
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch />
+            <CustomersSearch onSearch={handleSearch}/>
             <CustomersTable
               count={data.length}
               items={customers}
