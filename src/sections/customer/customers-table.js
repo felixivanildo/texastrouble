@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import {
   Avatar,
   Box,
+  Button,
   Card,
   Checkbox,
   Stack,
@@ -43,7 +44,7 @@ export const CustomersTable = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={selectedAll}
                     indeterminate={selectedSome}
                     onChange={(event) => {
@@ -53,22 +54,22 @@ export const CustomersTable = (props) => {
                         onDeselectAll?.();
                       }
                     }}
-                  />
+                  /> */}
                 </TableCell>
                 <TableCell>
-                  Name
+                  Usuario Atual
                 </TableCell>
                 <TableCell>
-                  Email
+                  Laudo
                 </TableCell>
                 <TableCell>
-                  Location
+                  Setor
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Cidade
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Ultima Alteração
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -78,13 +79,15 @@ export const CustomersTable = (props) => {
                 const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
 
                 return (
+                  
                   <TableRow
                     hover
                     key={customer.id}
                     selected={isSelected}
                   >
+                    
                     <TableCell padding="checkbox">
-                      <Checkbox
+                      {/* <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
@@ -93,7 +96,7 @@ export const CustomersTable = (props) => {
                             onDeselectOne?.(customer.id);
                           }
                         }}
-                      />
+                      /> */}
                     </TableCell>
                     <TableCell>
                       <Stack
@@ -110,7 +113,9 @@ export const CustomersTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
+                      <Button onClick={()=>{console.log( customer.email)}}>
                       {customer.email}
+                      </Button>
                     </TableCell>
                     <TableCell>
                       {customer.address.city}, {customer.address.state}, {customer.address.country}
@@ -128,7 +133,7 @@ export const CustomersTable = (props) => {
           </Table>
         </Box>
       </Scrollbar>
-      <TablePagination
+      {/* <TablePagination
         component="div"
         count={count}
         onPageChange={onPageChange}
@@ -136,7 +141,7 @@ export const CustomersTable = (props) => {
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
-      />
+      /> */}
     </Card>
   );
 };

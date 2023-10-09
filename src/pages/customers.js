@@ -10,12 +10,14 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { CustomersTable } from 'src/sections/customer/customers-table';
 import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from 'src/utils/apply-pagination';
+import Laudo from './formularios/laudo';
 
 const now = new Date();
 
 
 const Page = () => {
 const [searchTerm, setSearchTerm] = useState('');
+
   
 
 const [data, setData] = useState  ([
@@ -161,6 +163,8 @@ const [data, setData] = useState  ([
   }
 ]);
 
+const [ searchedata, setSearchdata] = useState (data);
+
 const handleSearch = (value) => {
   // console.log('Search value:', value);
   setSearchTerm(value);
@@ -181,16 +185,15 @@ const handleSearch = (value) => {
   });
 
   
-  setData(sortedData)
-  setCustormers(useCustomers(page, rowsPerPage))
-  console.log(data)
+  setSearchdata(sortedData)  
+  console.log(searchedata)
   
 };
 
 const useCustomers = (page, rowsPerPage) => {
   return useMemo(
     () => {
-      return applyPagination(data, page, rowsPerPage);
+      return applyPagination(searchedata, page, rowsPerPage);
     },
     [page, rowsPerPage]
   );
@@ -207,9 +210,10 @@ const useCustomerIds = (customers) => {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [customers, setCustormers] = useState (useCustomers(page, rowsPerPage))
+  const customers = useCustomers(page, rowsPerPage)
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  const [isVisible, setIsVisible] = useState ('none')
 
   const handlePageChange = useCallback(
     (event, value) => {
@@ -218,12 +222,25 @@ const useCustomerIds = (customers) => {
     []
   );
 
+  const toggleVisible = ()=>{
+     isVisible === 'none' ? setIsVisible('') : setIsVisible('none')
+    //  console.log(isVisible)
+  }
+
   const handleRowsPerPageChange = useCallback(
     (event) => {
       setRowsPerPage(event.target.value);
     },
     []
   );
+
+  useEffect(()=>{
+     const teste = () => {
+        
+     }
+
+     teste ()
+  }, [searchedata])
 
   return (
     <>
@@ -248,9 +265,9 @@ const useCustomerIds = (customers) => {
             >
               <Stack spacing={1}>
                 <Typography variant="h4">
-                  Customers
+                  Laudos
                 </Typography>
-                <Stack
+                {/* <Stack
                   alignItems="center"
                   direction="row"
                   spacing={1}
@@ -275,10 +292,11 @@ const useCustomerIds = (customers) => {
                   >
                     Export
                   </Button>
-                </Stack>
+                </Stack> */}
               </Stack>
               <div>
                 <Button
+                  onClick={()=>{toggleVisible()}}
                   startIcon={(
                     <SvgIcon fontSize="small">
                       <PlusIcon />
@@ -286,14 +304,19 @@ const useCustomerIds = (customers) => {
                   )}
                   variant="contained"
                 >
-                  Add
+                  Criar
                 </Button>
               </div>
             </Stack>
+
+            <div className="slide-in-element" style={{display: `${isVisible}`}}>
+              <Laudo/>
+            </div>
+
             <CustomersSearch onSearch={handleSearch}/>
             <CustomersTable
               count={data.length}
-              items={customers}
+              items={searchedata}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}

@@ -93,3 +93,18 @@ h1{
     width: calc(100% * (1/5) - 10px - 1px);
 }
 
+.slide-in-element {
+    transform: translateY(-100%);
+    animation: slideIn 1.5s ease-in-out forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
