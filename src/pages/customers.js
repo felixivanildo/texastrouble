@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 import Head from 'next/head';
 import { subDays, subHours } from 'date-fns';
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
@@ -20,7 +21,8 @@ const [searchTerm, setSearchTerm] = useState('');
 
   
 
-const [data, setData] = useState  ([
+const [data, setData] = useState  ( 
+   [
   {
     id: '5e887ac47eed253091be10cb',
     address: {
@@ -161,7 +163,9 @@ const [data, setData] = useState  ([
     name: 'Nasimiyu Danai',
     phone: '801-301-7894'
   }
-]);
+] 
+
+);
 
 const [ searchedata, setSearchdata] = useState (data);
 
@@ -234,13 +238,27 @@ const useCustomerIds = (customers) => {
     []
   );
 
-  useEffect(()=>{
-     const teste = () => {
-        
-     }
+  const [loading, setLoading] = useState(false);
 
-     teste ()
-  }, [searchedata])
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const retrievedData = await axios.get('http://10.254.4.132:3010/api/getall');
+        setData(retrievedData.data);
+        setSearchdata(retrievedData.data)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+      finally {
+        setLoading(true)
+      }
+    };
+
+    fetchData();
+  }, [])
+
+
+
 
   return (
     <>
@@ -314,6 +332,7 @@ const useCustomerIds = (customers) => {
             </div>
 
             <CustomersSearch onSearch={handleSearch}/>
+            { loading &&
             <CustomersTable
               count={data.length}
               items={searchedata}
@@ -327,6 +346,7 @@ const useCustomerIds = (customers) => {
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
             />
+            }
           </Stack>
         </Container>
       </Box>

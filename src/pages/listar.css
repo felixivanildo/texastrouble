@@ -108,3 +108,21 @@ h1{
       opacity: 1;
     }
   }
+
+  .mainform{
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* Adjust the gap as needed */
+  }
+
+
+  .item {
+    /* Add styling for your grid items */
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    text-align: center;
+  }
+
+  /* .item:last-child{
+    grid-column: span 3;
+  } */

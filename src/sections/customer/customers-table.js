@@ -24,7 +24,7 @@ export const CustomersTable = (props) => {
     items = [],
     onDeselectAll,
     onDeselectOne,
-    onPageChange = () => {},
+    onPageChange = () => { },
     onRowsPerPageChange,
     onSelectAll,
     onSelectOne,
@@ -60,13 +60,13 @@ export const CustomersTable = (props) => {
                   Usuario Atual
                 </TableCell>
                 <TableCell>
-                  Laudo
+                  Email
                 </TableCell>
                 <TableCell>
                   Setor
                 </TableCell>
                 <TableCell>
-                  Cidade
+                  Laudo
                 </TableCell>
                 <TableCell>
                   Ultima Alteração
@@ -76,16 +76,16 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+                const createdAt = String(customer.createdAt).substring(0,10);
 
                 return (
-                  
+
                   <TableRow
                     hover
                     key={customer.id}
                     selected={isSelected}
                   >
-                    
+
                     <TableCell padding="checkbox">
                       {/* <Checkbox
                         checked={isSelected}
@@ -113,15 +113,19 @@ export const CustomersTable = (props) => {
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      <Button onClick={()=>{console.log( customer.email)}}>
+
                       {customer.email}
-                      </Button>
+
                     </TableCell>
                     <TableCell>
+
                       {customer.address.city}, {customer.address.state}, {customer.address.country}
+
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      <Button onClick={() => { console.log(customer.email) }} style={{margin: "0px", padding: "0px"}}>
+                        {customer.phone}
+                      </Button>
                     </TableCell>
                     <TableCell>
                       {createdAt}

@@ -19,10 +19,11 @@ import { Scrollbar } from 'src/components/scrollbar';
 import { SeverityPill } from 'src/components/severity-pill';
 
 const statusMap = {
-  pending: 'warning',
+  Pendente: 'warning',
   delivered: 'success',
   refunded: 'error'
 };
+
 
 export const OverviewLatestOrders = (props) => {
   const { orders = [], sx } = props;
@@ -36,10 +37,10 @@ export const OverviewLatestOrders = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <p style={{fontWeight: "bolder"}}>ID DO LAUDO</p>
+                  <p style={{fontWeight: "bolder"}}>NOME DO LAUDO</p>
                 </TableCell>
                 <TableCell>
-                <p style={{fontWeight: "bolder"}}>UNIDADE ATUAL</p>
+                <p style={{fontWeight: "bolder"}}>SETOR ATUAL</p>
                 </TableCell>
                 <TableCell sortDirection="desc">
                 <p style={{fontWeight: "bolder"}}>ULTIMA ATUALIZACAO</p>
@@ -51,7 +52,7 @@ export const OverviewLatestOrders = (props) => {
             </TableHead>
             <TableBody>
               {orders.map((order) => {
-                const createdAt = format(order.createdAt, 'dd/MM/yyyy');
+                const createdAt = String(order.createdAt).substring(0,10);
 
                 return (
                   <TableRow

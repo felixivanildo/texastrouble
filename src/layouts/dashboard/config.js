@@ -112,5 +112,14 @@ export const items = [
       </SvgIcon>
     )
   },
+  {
+    title: 'xyp9x',
+    path: '/laiouteste',
+    icon: (
+      <SvgIcon fontSize="small">
+        <AddIcon />
+      </SvgIcon>
+    )
+  },
 
 ];
