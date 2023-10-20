@@ -327,7 +327,7 @@ const useCustomerIds = (customers) => {
               </div>
             </Stack>
 
-            <div className="slide-in-element" style={{display: `${isVisible}`}}>
+            <div className="slide-in-element" style={{marginLeft: '20%', display: `${isVisible}`}}>
               <Laudo/>
             </div>
 

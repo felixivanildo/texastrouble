@@ -8,8 +8,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
 
-export default function cadastrarSetor() {
-  const [unidades, setUnidades] = useState([{}])
+export default function CadastrarCidade() {
+  const [unidades, setUnidades] = useState ([{}])
 
   const {
     register,
@@ -25,15 +25,21 @@ export default function cadastrarSetor() {
   //   { title: 'Teste 3', id: 3 }
   // ]
 
-  const handleSubmitData = (data) => {
-    console.log('submit', data);
+  const handleSubmitData = async (data) => {
+    await axios.post('http://10.254.4.132:3010/api/cadastrarcidade', data).then((e)=>{
+        alert(e.data.message)
+    })
     reset();
   }
 
-  useEffect(() => {
-    const retrieve = async () => {
-      
+  useEffect(()=>{
+    const retrieve = async ()=>{
+      const retrieved = await axios.get('http://10.254.4.132:3010/api/unidadesdisponiveis')
+
+      setUnidades(retrieved.data)
     }
+
+    retrieve()
   })
 
   return (
@@ -48,30 +54,19 @@ export default function cadastrarSetor() {
         boxSizing: 'border-box',
       }}
     >
-      <h2>Cadastrar Prédio</h2>
+      <h2>Cadastrar Cidade</h2>
       <form onSubmit={handleSubmit(handleSubmitData)}>
         <TextField
           style={{ marginBottom: 10 }}
           fullWidth
           variant="outlined"
-          label="Nome do Prédio"
-          {...register("nomePredio", { required: "* Text cannot be empty" })}
-          error={!!errors.nomePredio}
-          helperText={errors.nomePredio ? errors.nomePredio.message : ""}
+          label="Nome da Cidade"
+          {...register("nomeCidade", { required: "* Text cannot be empty" })}
+          error={!!errors.nomeCidade}
+          helperText={errors.nomeCidade ? errors.nomeCidade.message : ""}
         />
-
-        <TextField
-          style={{ marginBottom: 10 }}
-          fullWidth
-          variant="outlined"
-          label="Nome Abreviado"
-          {...register("nomeSetor", { required: "* Text cannot be empty" })}
-          error={!!errors.nomeAbreviado}
-          helperText={errors.nomeAbreviado ? errors.nomeAbreviado.message : ""}
-        />
-        
         <Controller
-          name="Cidade"
+          name="unidadeOrg"
           control={control}
           rules={{ required: "* Select an option" }}
           render={({ field, fieldState: { error } }) => {
@@ -92,7 +87,7 @@ export default function cadastrarSetor() {
                 }}
                 renderInput={(params) => (
                   <TextField
-                    label="Cidade"
+                    label="Unidade Organizacional"
                     {...params}
                     inputRef={ref}
                     error={!!errors.unidadeOrg}

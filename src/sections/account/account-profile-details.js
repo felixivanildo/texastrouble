@@ -14,16 +14,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const states = [
   {
-    value: 'alabama',
-    label: 'Alabama'
+    value: 'SUPMAST',
+    label: 'SUPMAST'
   },
   {
-    value: 'new-york',
-    label: 'New York'
+    value: 'GECAM',
+    label: 'GECAM'
   },
   {
-    value: 'san-francisco',
-    label: 'San Francisco'
+    value: 'SUPMER',
+    label: 'SUPMER'
   },
   {
     value: 'los-angeles',

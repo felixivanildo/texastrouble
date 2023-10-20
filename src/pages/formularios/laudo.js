@@ -1,20 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useForm, Controller } from 'react-hook-form';
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Select, MenuItem } from "@mui/material";
+import { Throw } from "src/components/functions/Rdminethrow";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Laudo() {
     const { handleSubmit, control } = useForm();
+    const [selectedImage, setSelectedImage] = useState([]);
+    const [sectors, setSectors] = useState([{}])
+    const [currentuser, setCurrentUser] = useState ([{}])
 
     const onSubmit = (data) => {
-        console.log(data);
+        
+        Throw(currentuser,data,selectedImage)
         // Handle form submission logic here
     };
 
+    const handleImageChange = (event) => {
+        const files = event.target.files;
+        const imagesArray = [];
+    
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+    
+            reader.onload = (e) => {
+                imagesArray.push({
+                    "imagecode": e.target.result,
+                    "extension": files[i].name.substring(files[i].name.length - 3),
+                    "name": files[i].name.substring(0, files[i].name.length - 3),
+                });
+    
+                if (imagesArray.length === files.length) {
+                    setSelectedImage(imagesArray);
+                }
+            };
+    
+            reader.readAsDataURL(files[i]);
+        }
+
+       
+    };
+
+    useEffect(()=>{
+        const autoexec = async ()=>{
+        const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
+        const user = await AsyncStorage.getItem('@user')
+        setSectors(elaborate.data)
+        setCurrentUser(JSON.parse(user))
+        }
+
+        autoexec()
+    }, [])
+
     const json = [
-        { "name": "measuringid", "text": "serial primary key" },
-        { "name": "reportid", "text": "integer not null" },
-        { "name": "updatedat", "text": "date" },
-        { "name": "createdat", "text": "date DEFAULT CURRENT_DATE" },
         { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
         { "name": "corverdadeira", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
         { "name": "turbidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
@@ -45,8 +84,25 @@ export default function Laudo() {
     ]
     return (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "30px" }}>
-            <div style={{ marginLeft: "10%", marginRight: "10%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
+                <Controller
+                            name={'reportname'}
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    style={{marginLeft: "30%"}}
+                                    id="outlined-static"
+                                    label="Nome do Laudo"
+                                    size="small"
+                                    
+                                    {...field}
+                                />
+                            )}
+                        />
+
+                        <br></br>
                     <div className="mainform">
                         {/* Loop through columns in JSON and create form fields */}
                         {json.map((column) => (
@@ -70,32 +126,62 @@ export default function Laudo() {
                                 />
                             </div>
                         ))}
+
+                        <div className="item">
+                            <Controller
+                                name={'sector'}
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <Select
+                                        style={{ minWidth: "120px" }}
+                                        placeholder="Setor"
+                                        id="demo-simple-select"
+                                        size="small"
+                                        defaultValue="Setor"
+                                        {...field}
+                                    >
+                                        {sectors.map((sec)=> (
+                                            <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                            ))}
+                                    </Select>
+                                )}
+                            />
+
+                        </div>
+                        <Controller
+                            name={'notes'}
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <TextField
+                                    className="item"
+                                    id="outlined-multiline-static"
+                                    label="Nota"
+                                    multiline
+                                    rows={4}
+                                    defaultValue="Default Value"
+                                    {...field}
+                                />
+                            )}
+                        />
+
+
                     </div>
 
 
-                    <Controller
-                        name={'notes'}
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                id="outlined-multiline-static"
-                                label="Nota"
-                                multiline
-                                rows={4}
-                                defaultValue="Default Value"
-                                {...field}
-                            />
-                        )}
-                    />
+
+                    <input onChange={handleImageChange} type="file" placeholder="Anexar Fotos" multiple  ></input>
+
+                    <br />
 
 
 
+                    <Button style={{ marginTop: "10px" }} type="submit" variant="contained" color="primary">
+                        Submit
+                    </Button>
 
                 </form>
-                <Button style={{ marginTop: "10px" }} type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
 
             </div>
 

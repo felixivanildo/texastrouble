@@ -95,7 +95,7 @@ export const items = [
     )
   },
   {
-    title: 'Listar usuario',
+    title: 'Listar Usuarios',
     path: '/listarusuario',
     icon: (
       <SvgIcon fontSize="small">
@@ -104,8 +104,17 @@ export const items = [
     )
   },
   {
-    title: 'Cadastrar unidade',
+    title: 'Cadastrar Unidade',
     path: '/cadastraunidade',
+    icon: (
+      <SvgIcon fontSize="small">
+        <AddIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Cadastrar Cidade',
+    path: '/cadastrarcidades',
     icon: (
       <SvgIcon fontSize="small">
         <AddIcon />

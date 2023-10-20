@@ -5,7 +5,8 @@ import { SettingsNotifications } from 'src/sections/settings/settings-notificati
 import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import axios from 'axios';
-import CadastrarUnidadeOrganizacional from './formularios/cadastrarunidadeOrganizacional';
+
+import CadastrarCidade from './formularios/cadastratCidade';
 
 
 
@@ -33,7 +34,7 @@ const Page = () => {
                         {/* <SettingsNotifications />
             <SettingsPassword /> */}
                         <div >
-                           <CadastrarUnidadeOrganizacional/>
+                           <CadastrarCidade/>
                         </div>
                     </Stack>
                 </Container>

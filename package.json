@@ -20,6 +20,7 @@
     "@emotion/styled": "^11.10.6",
     "@heroicons/react": "2.0.16",
     "@iconify/react": "^4.1.1",
+    "@material/switch": "^14.0.0",
     "@mui/icons-material": "^5.14.12",
     "@mui/lab": "5.0.0-alpha.120",
     "@mui/material": "^5.11.10",
