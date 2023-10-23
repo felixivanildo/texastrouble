@@ -1,53 +1,62 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { styled } from '@mui/material/styles';
 import { useForm, Controller } from 'react-hook-form';
-import { Button, TextField, Select, MenuItem } from "@mui/material";
+import { Button, TextField, InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
+const VisuallyHiddenInput = styled('input')({
+    position: 'absolute',
+    zIndex: -1,
+    left: "15px",
+    color: "#000"
+});
 
 export default function Laudo() {
     const { handleSubmit, control } = useForm();
     const [selectedImage, setSelectedImage] = useState([]);
     const [sectors, setSectors] = useState([{}])
-    const [currentuser, setCurrentUser] = useState ([{}])
+    const [currentuser, setCurrentUser] = useState([{}])
 
     const onSubmit = (data) => {
-        
-        Throw(currentuser,data,selectedImage)
+
+        Throw(currentuser, data, selectedImage)
         // Handle form submission logic here
     };
 
     const handleImageChange = (event) => {
         const files = event.target.files;
         const imagesArray = [];
-    
+
         for (let i = 0; i < files.length; i++) {
             const reader = new FileReader();
-    
+
             reader.onload = (e) => {
                 imagesArray.push({
                     "imagecode": e.target.result,
                     "extension": files[i].name.substring(files[i].name.length - 3),
                     "name": files[i].name.substring(0, files[i].name.length - 3),
                 });
-    
+
                 if (imagesArray.length === files.length) {
                     setSelectedImage(imagesArray);
                 }
             };
-    
+
             reader.readAsDataURL(files[i]);
         }
 
-       
+
     };
 
-    useEffect(()=>{
-        const autoexec = async ()=>{
-        const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
-        const user = await AsyncStorage.getItem('@user')
-        setSectors(elaborate.data)
-        setCurrentUser(JSON.parse(user))
+    useEffect(() => {
+        const autoexec = async () => {
+            const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
+            const user = await AsyncStorage.getItem('@user')
+            setSectors(elaborate.data)
+            setCurrentUser(JSON.parse(user))
         }
 
         autoexec()
@@ -86,23 +95,22 @@ export default function Laudo() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "30px" }}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                <Controller
-                            name={'reportname'}
-                            control={control}
-                            defaultValue=""
-                            render={({ field }) => (
-                                <TextField
-                                    style={{marginLeft: "30%"}}
-                                    id="outlined-static"
-                                    label="Nome do Laudo"
-                                    size="small"
-                                    
-                                    {...field}
-                                />
-                            )}
-                        />
+                    <Controller
+                        name={'reportname'}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                style={{ marginLeft: "30%" }}
+                                id="outlined-static"
+                                label="Nome do Laudo"
 
-                        <br></br>
+                                {...field}
+                            />
+                        )}
+                    />
+
+                    <br></br>
                     <div className="mainform">
                         {/* Loop through columns in JSON and create form fields */}
                         {json.map((column) => (
@@ -114,7 +122,6 @@ export default function Laudo() {
                                     defaultValue=""
                                     render={({ field }) => (
                                         <TextField
-                                            id="outlined-basic"
                                             label={column.name}
                                             variant="outlined"
                                             size="small"
@@ -133,18 +140,20 @@ export default function Laudo() {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <Select
-                                        style={{ minWidth: "120px" }}
-                                        placeholder="Setor"
-                                        id="demo-simple-select"
-                                        size="small"
-                                        defaultValue="Setor"
-                                        {...field}
-                                    >
-                                        {sectors.map((sec)=> (
-                                            <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                    <FormControl size="small">
+                                        <InputLabel id="setor-label">Setor</InputLabel>
+                                        <Select
+                                            labelId="setor-label"
+                                            label="Setor"
+                                            style={{ minWidth: "120px" }}
+                                            id="demo-simple-select"
+                                            {...field}
+                                        >
+                                            {sectors.map((sec) => (
+                                                <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
                                             ))}
-                                    </Select>
+                                        </Select>
+                                    </FormControl>
                                 )}
                             />
 
@@ -166,18 +175,38 @@ export default function Laudo() {
                             )}
                         />
 
-
                     </div>
 
-
-
-                    <input onChange={handleImageChange} type="file" placeholder="Anexar Fotos" multiple  ></input>
+                    <Button
+                        size="small"
+                        color="primary"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUploadIcon />}
+                        style={{
+                            marginTop: "10px",
+                            position: "relative",
+                        }}
+                    >
+                        Anexar Fotos
+                        <VisuallyHiddenInput
+                            multiple
+                            type="file"
+                            onChange={handleImageChange}
+                        />
+                    </Button>
 
                     <br />
 
 
 
-                    <Button style={{ marginTop: "10px" }} type="submit" variant="contained" color="primary">
+                    <Button
+                        style={{ marginTop: "10px" }}
+                        fullWidth
+                        type="submit"
+                        color="primary"
+                        variant="contained"
+                    >
                         Submit
                     </Button>
 

@@ -41,7 +41,7 @@ const Page = () => {
         .required('Password is required')
     }),
     onSubmit: async (values, helpers) => {
-   
+
       try {
         await auth.signIn(values.email, values.password);
         router.push('/');

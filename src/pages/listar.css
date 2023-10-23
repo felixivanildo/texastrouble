@@ -38,12 +38,13 @@
     color: black;
 }
 
-h1{
+h1 {
     margin-left: 0%;
 }
 
 div::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+    display: none;
+    /* for Chrome, Safari, and Opera */
 }
 
 html::-webkit-scrollbar {
@@ -55,7 +56,7 @@ html::-webkit-scrollbar-track {
 }
 
 html::-webkit-scrollbar-thumb {
-    background-image: url('https://i.ibb.co/1RHr40z/248599.png'); 
+    background-image: url('https://i.ibb.co/1RHr40z/248599.png');
     background-repeat: no-repeat, no-repeat;
     background-size: 20px;
 }
@@ -68,23 +69,23 @@ html::-webkit-scrollbar-thumb {
         font-size: 0.1em;
     }
 
-    
+
     .styled-table th,
-.styled-table td {
-    padding: 2px 5px;
+    .styled-table td {
+        padding: 2px 5px;
+    }
+
+
+
+    h1 {
+        margin-left: 0%;
+        font-size: 20px;
+    }
+
 }
 
 
-    
-h1{
-    margin-left: 0%;
-    font-size: 20px;
-}
-
-}
-
-
-.child{
+.child {
     display: inline-block;
     /* background: blue; */
     margin: 10px 0 0 2%;
@@ -96,33 +97,35 @@ h1{
 .slide-in-element {
     transform: translateY(-100%);
     animation: slideIn 1.5s ease-in-out forwards;
-  }
-  
-  @keyframes slideIn {
+}
+
+@keyframes slideIn {
     from {
-      transform: translateY(-100%);
-      opacity: 0;
+        transform: translateY(-100%);
+        opacity: 0;
     }
+
     to {
-      transform: translateY(0);
-      opacity: 1;
+        transform: translateY(0);
+        opacity: 1;
     }
-  }
+}
 
-  .mainform{
+.mainform {
     display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px; /* Adjust the gap as needed */
-  }
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    /* Adjust the gap as needed */
+}
 
 
-  .item {
+.item {
     /* Add styling for your grid items */
     /* border: 1px solid #ccc; */
-    padding: 20px;
+    padding: 10px;
     text-align: center;
-  }
+}
 
-  .item:last-child{
+.item:last-child {
     grid-column: span 3;
-  }
+}

@@ -6,7 +6,7 @@ import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import axios from 'axios';
 
-import CadastrarCidade from './formularios/cadastratCidade';
+import CadastrarCidade from './formularios/cadastrarCidade';
 
 
 

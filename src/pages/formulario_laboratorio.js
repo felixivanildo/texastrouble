@@ -8,7 +8,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 
 
 const ReportMeasuringsForm = () => {
-    
+
 
     return (
         <>
@@ -30,8 +30,8 @@ const ReportMeasuringsForm = () => {
                             Usuarios
                         </Typography>
                         {/* <SettingsNotifications />
-    <SettingsPassword /> */}
-                      <Laudo></Laudo>
+                        <SettingsPassword /> */}
+                        <Laudo></Laudo>
                     </Stack>
                 </Container>
             </Box>

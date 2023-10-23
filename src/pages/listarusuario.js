@@ -8,86 +8,86 @@ import axios from 'axios';
 
 
 const Page = () => {
-  // Example useState
-  const [arrayteste, setArrayteste] = useState ([{}])
+	// Example useState
+	const [arrayteste, setArrayteste] = useState([{}])
 
-  useEffect(()=>{
-      const getdata = async ()=> {
-          
+	useEffect(() => {
+		const getdata = async () => {
 
-          var retrieved = await axios.get('http://10.254.4.132:3010/api/id')
-          
-          console.log(retrieved)
-           setArrayteste(retrieved.data)
- 
-     }
-      
+			var retrieved = await axios.get('http://10.254.4.132:3010/api/id')
 
-     getdata()
-  }, [])
+			console.log(retrieved)
+			setArrayteste(retrieved.data)
 
-  return (
-    <>
-      <Head>
-        <title>
-          USUARIOS | TEXAS TROUBLEMAKER
-        </title>
-      </Head>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 8
-        }}
-      >
-        <Container maxWidth="lg">
-          <Stack spacing={3}>
-            <Typography variant="h4">
-              Usuarios
-            </Typography>
-            {/* <SettingsNotifications />
+		}
+
+
+		getdata()
+	}, [])
+
+	return (
+		<>
+			<Head>
+				<title>
+					USUARIOS | TEXAS TROUBLEMAKER
+				</title>
+			</Head>
+			<Box
+				component="main"
+				sx={{
+					flexGrow: 1,
+					py: 8
+				}}
+			>
+				<Container maxWidth="lg">
+					<Stack spacing={3}>
+						<Typography variant="h4">
+							Usuarios
+						</Typography>
+						{/* <SettingsNotifications />
             <SettingsPassword /> */}
-            <div style={{ marginLeft: "10%", marginRight: "10%", }}>
-            
-            <div style={{display: "flex", justifyContent: "center"}}>
-            <table className="styled-table" >
-                <thead>
-                    <tr>
-                    <th>Nome</th>
-                    <th>Telefone</th>
-                    <th>Setor</th>
-                    <th>Cidade</th>
-                    <th>Trabalho</th>
-                    </tr>
-                </thead>
-                <tbody >
-                {arrayteste.map((row, index) => {
-                    return(
-                    <tr   className="active-row" key={index}>
-                        <td>{row.firstname}</td>
-                        <td>{row.phone}</td>
-                        <td>{row.country}</td>
-                        <td>{row.city}</td>
-                        <td>{row.jobtitle}</td>
+						<div style={{ marginLeft: "10%", marginRight: "10%", }}>
 
-                    </tr>
+							<div style={{ display: "flex", justifyContent: "center" }}>
+								<table className="styled-table" >
+									<thead>
+										<tr>
+											<th>Nome</th>
+											<th>Telefone</th>
+											<th>Setor</th>
+											<th>Cidade</th>
+											<th>Trabalho</th>
+										</tr>
+									</thead>
+									<tbody >
+										{arrayteste.map((row, index) => {
+											return (
+												<tr className="active-row" key={index}>
+													<td>{row.firstname}</td>
+													<td>{row.phone}</td>
+													<td>{row.country}</td>
+													<td>{row.city}</td>
+													<td>{row.jobtitle}</td>
 
-                )})}
-                </tbody>
-            </table>
-            </div>
-        </div>
-          </Stack>
-        </Container>
-      </Box>
-    </>
-  );
+												</tr>
+
+											)
+										})}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</Stack>
+				</Container>
+			</Box>
+		</>
+	);
 };
 
 Page.getLayout = (page) => (
-  <DashboardLayout>
-    {page}
-  </DashboardLayout>
+	<DashboardLayout>
+		{page}
+	</DashboardLayout>
 );
 
 export default Page;

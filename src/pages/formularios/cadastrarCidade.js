@@ -9,7 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
 
 export default function CadastrarCidade() {
-  const [unidades, setUnidades] = useState ([{}])
+  const [unidades, setUnidades] = useState([{}])
 
   const {
     register,
@@ -26,14 +26,14 @@ export default function CadastrarCidade() {
   // ]
 
   const handleSubmitData = async (data) => {
-    await axios.post('http://10.254.4.132:3010/api/cadastrarcidade', data).then((e)=>{
-        alert(e.data.message)
+    await axios.post('http://10.254.4.132:3010/api/cadastrarcidade', data).then((e) => {
+      alert(e.data.message)
     })
     reset();
   }
 
-  useEffect(()=>{
-    const retrieve = async ()=>{
+  useEffect(() => {
+    const retrieve = async () => {
       const retrieved = await axios.get('http://10.254.4.132:3010/api/unidadesdisponiveis')
 
       setUnidades(retrieved.data)
