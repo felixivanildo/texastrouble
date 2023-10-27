@@ -122,6 +122,15 @@ export const items = [
     )
   },
   {
+    title: 'Cadastrar Prédio',
+    path: '/cadastrarpredio',
+    icon: (
+      <SvgIcon fontSize="small">
+        <AddIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'xyp9x',
     path: '/laiouteste',
     icon: (

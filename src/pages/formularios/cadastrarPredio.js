@@ -8,7 +8,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
 
-export default function cadastrarSetor() {
+export default function CantonadastrarPredio() {
   const [cidades, setCidades] = useState([{}])
 
   const {
@@ -38,7 +38,7 @@ export default function cadastrarSetor() {
     }
 
     retrieve()
-  })
+  }, [])
 
   return (
     <Box
@@ -73,7 +73,7 @@ export default function cadastrarSetor() {
           error={!!errors.nomeAbreviado}
           helperText={errors.nomeAbreviado ? errors.nomeAbreviado.message : ""}
         />
-        
+
         <Controller
           name="Cidade"
           control={control}
