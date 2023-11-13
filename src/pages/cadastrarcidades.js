@@ -11,7 +11,7 @@ import CadastrarCidade from './formularios/cadastrarCidade';
 
 
 const Page = () => {
-   
+
     return (
         <>
             <Head>
