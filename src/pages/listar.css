@@ -118,11 +118,9 @@ html::-webkit-scrollbar-thumb {
     /* Adjust the gap as needed */
 }
 
-
 .item {
     /* Add styling for your grid items */
     /* border: 1px solid #ccc; */
-    padding: 10px;
     text-align: center;
 }
 

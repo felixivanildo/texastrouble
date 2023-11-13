@@ -7,21 +7,27 @@ import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
+
 const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
     position: 'absolute',
-    zIndex: -1,
-    left: "15px",
-    color: "#000"
-});
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
 export default function Laudo() {
     const { handleSubmit, control } = useForm();
     const [selectedImage, setSelectedImage] = useState([]);
-    const [sectors, setSectors] = useState([{}])
-    const [currentuser, setCurrentUser] = useState([{}])
+    const [sectors, setSectors] = useState([{}]);
+    const [currentuser, setCurrentUser] = useState([{}]);
+    const [fotoMensagem, setFotoMensagem] = useState("");
 
     const onSubmit = (data) => {
-
         Throw(currentuser, data, selectedImage)
         // Handle form submission logic here
     };
@@ -48,7 +54,8 @@ export default function Laudo() {
             reader.readAsDataURL(files[i]);
         }
 
-
+        const txt = files.length > 0 ? `${files.length} Fotos Selecionadas`: "";
+        setFotoMensagem(txt);
     };
 
     useEffect(() => {
@@ -93,7 +100,7 @@ export default function Laudo() {
     ]
     return (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "30px" }}>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", margin: 10 }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name={'reportname'}
@@ -101,7 +108,7 @@ export default function Laudo() {
                         defaultValue=""
                         render={({ field }) => (
                             <TextField
-                                style={{ marginLeft: "30%" }}
+                                style={{ width: "100%", marginBottom: 20 }}
                                 id="outlined-static"
                                 label="Nome do Laudo"
 
@@ -110,7 +117,6 @@ export default function Laudo() {
                         )}
                     />
 
-                    <br></br>
                     <div className="mainform">
                         {/* Loop through columns in JSON and create form fields */}
                         {json.map((column) => (
@@ -140,12 +146,11 @@ export default function Laudo() {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <FormControl size="small">
+                                    <FormControl size="small" style={{width: "100%"}}>
                                         <InputLabel id="setor-label">Setor</InputLabel>
                                         <Select
                                             labelId="setor-label"
                                             label="Setor"
-                                            style={{ minWidth: "120px" }}
                                             id="demo-simple-select"
                                             {...field}
                                         >
@@ -177,31 +182,30 @@ export default function Laudo() {
 
                     </div>
 
+                    <div style={{display: "flex", alignItems: "center"}}>
+                        <Button
+                            size="small"
+                            color="secondary"
+                            component="label"
+                            variant="contained"
+                            startIcon={<CloudUploadIcon />}
+                            style={{
+                                marginTop: "10px",
+                                position: "relative",
+                            }}
+                        >
+                            Anexar Fotos
+                            <VisuallyHiddenInput
+                                multiple
+                                type="file"
+                                onChange={handleImageChange}
+                            />
+                        </Button>
+                        <p style={{fontSize: 16, margin: 0, marginLeft: 10, marginTop: 10}}>{fotoMensagem}</p>
+                    </div>
+
                     <Button
-                        size="small"
-                        color="primary"
-                        component="label"
-                        variant="contained"
-                        startIcon={<CloudUploadIcon />}
-                        style={{
-                            marginTop: "10px",
-                            position: "relative",
-                        }}
-                    >
-                        Anexar Fotos
-                        <VisuallyHiddenInput
-                            multiple
-                            type="file"
-                            onChange={handleImageChange}
-                        />
-                    </Button>
-
-                    <br />
-
-
-
-                    <Button
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: "20px", padding: 10 }}
                         fullWidth
                         type="submit"
                         color="primary"
@@ -213,7 +217,6 @@ export default function Laudo() {
                 </form>
 
             </div>
-
 
         </div>
     );
