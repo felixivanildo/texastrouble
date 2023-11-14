@@ -7,6 +7,8 @@ import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
+import aguaBruta from "./agua-bruta.json"
+import aguaTratada from "./agua-tratada.json"
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -18,7 +20,7 @@ const VisuallyHiddenInput = styled('input')({
     left: 0,
     whiteSpace: 'nowrap',
     width: 1,
-  });
+});
 
 export default function Laudo() {
     const { handleSubmit, control } = useForm();
@@ -26,6 +28,7 @@ export default function Laudo() {
     const [sectors, setSectors] = useState([{}]);
     const [currentuser, setCurrentUser] = useState([{}]);
     const [fotoMensagem, setFotoMensagem] = useState("");
+    const [json, setJson] = useState(aguaBruta);
 
     const onSubmit = (data) => {
         Throw(currentuser, data, selectedImage)
@@ -69,38 +72,25 @@ export default function Laudo() {
         autoexec()
     }, [])
 
-    const json = [
-        { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "corverdadeira", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "turbidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "condutanciaespecifica", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "acidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadeoh", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadeco", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadehco", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezatotal", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezacarbonatos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezancarbonatos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "calcio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "magnesio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "cloretos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "silica", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "sulfato", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "amonia", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "nitrato", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "nitrito", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "ferrototal", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "sodio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "potassio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "solidostotais", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "colifornestotais", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "escherichiacoli", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "indice_nitrato_nitrito", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-
-    ]
     return (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "30px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)" }}>
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", margin: 10 }}>
+            <FormControl fullWidth style={{ marginBottom: 20 }}>
+                    <InputLabel id="qualidade-agua-label">Qualidade da Água</InputLabel>
+                    <Select
+                        labelId="qualidade-agua-label"
+                        id="qualidade-agua"
+                        value={json}
+                        label="Qualidade da Água"
+                        onChange={(event) => {
+                            setJson(event.target.value);
+                        }}
+                    >
+                        <MenuItem value={aguaBruta}>Água Bruta</MenuItem>
+                        <MenuItem value={aguaTratada}>Água Tratada</MenuItem>
+                    </Select>
+                </FormControl>
+
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Controller
                         name={'reportname'}
@@ -119,26 +109,81 @@ export default function Laudo() {
 
                     <div className="mainform">
                         {/* Loop through columns in JSON and create form fields */}
-                        {json.map((column) => (
-                            <div className="item" key={column.name}>
-                                {/* Use Controller to integrate React Hook Form with input fields */}
-                                <Controller
-                                    name={column.name}
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <TextField
-                                            label={column.name}
-                                            variant="outlined"
-                                            size="small"
-                                            type="text"
-                                            {...field}
-
-                                        />
-                                    )}
-                                />
-                            </div>
-                        ))}
+                        {
+                            Object.keys(json).map((property) => {
+                                return (
+                                    <>
+                                    <hr/>
+                                    <h2>{property.replace(/-+/g, " ")}</h2>
+                                    {
+                                    property !== "IQA" ?
+                                    json[property].map((column) => (
+                                        <div className="item" key={column.name}>
+                                            {/* Use Controller to integrate React Hook Form with input fields */}
+                                            <Controller
+                                                name={column.name}
+                                                control={control}
+                                                defaultValue=""
+                                                render={({ field }) => (
+                                                    <TextField
+                                                        label={column.name.replace(/_+/g, " ")}
+                                                        variant="outlined"
+                                                        size="small"
+                                                        type="text"
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                        </div>
+                                    ))
+                                    :
+                                    <>
+                                        <h3>ETA</h3>
+                                        {json[property].map((column) => (
+                                            <div className="item" key={column.name}>
+                                                {/* Use Controller to integrate React Hook Form with input fields */}
+                                                <Controller
+                                                    name={column.name}
+                                                    control={control}
+                                                    defaultValue=""
+                                                    render={({ field }) => (
+                                                        <TextField
+                                                            label={column.name.replace(/_+/g, " ")}
+                                                            variant="outlined"
+                                                            size="small"
+                                                            type="text"
+                                                            {...field}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+                                        ))}
+                                        <h3>Poço</h3>
+                                        {json[property].map((column) => (
+                                        <div className="item" key={column.name}>
+                                            {/* Use Controller to integrate React Hook Form with input fields */}
+                                            <Controller
+                                                name={column.name}
+                                                control={control}
+                                                defaultValue=""
+                                                render={({ field }) => (
+                                                    <TextField
+                                                        label={column.name.replace(/_+/g, " ")}
+                                                        variant="outlined"
+                                                        size="small"
+                                                        type="text"
+                                                        {...field}
+                                                    />
+                                                )}
+                                            />
+                                        </div>
+                                    ))}
+                                    </>
+                                    }
+                                    </>
+                                )
+                            })
+                        }
 
                         <div className="item">
                             <Controller

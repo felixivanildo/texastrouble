@@ -38,7 +38,7 @@
         { "name": "escherichia_coli", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
         { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" }
     ],
-    "iqa-eta-poco": [
+    "IQA": [
         { "name": "data_coleta", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
         { "name": "ponto_coleta", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
         { "name": "cor", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
