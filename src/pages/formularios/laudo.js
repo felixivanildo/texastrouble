@@ -223,7 +223,7 @@ export default function Laudo() {
                     />
                 </div>
 
-                  <div style={{display: "flex", alignItems: "center", padding: "20px", marginBottom: "20px", justifyContent: "space-evenly", flexDirection:"column"}}>
+                  <div style={{display: "flex", alignItems: "center", justifyContent: "space-evenly", flexDirection:"column"}}>
                         <Button
                             size="small" 
                             color="secondary" 
