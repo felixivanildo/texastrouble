@@ -48,7 +48,7 @@ export const AccountProfileDetails = () => {
         const response = await AsyncStorage.getItem('@user') // Assuming you have an API endpoint for fetching user data
         // console.log(response.body)
         // const userData = await response.json();
-        console.log(JSON.parse(response))
+        // console.log(JSON.parse(response))
         setValues(JSON.parse(response));
       } catch (error) {
         console.error('Error fetching user:', error);

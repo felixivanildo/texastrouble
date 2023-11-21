@@ -1,137 +1,233 @@
-import { Controller, useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
-import { Switch } from "@mui/material";
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Autocomplete from "@mui/material/Autocomplete";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import axios from "axios";
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Divider,
+  TextField,
+  Unstable_Grid2 as Grid,
+  Switch
+} from '@mui/material';
+import axios from 'axios';
 
-export default function cadastrarSetor() {
-  const [cidades, setCidades] = useState([{}])
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors }
-  } = useForm();
-
-  // const unidades = [
-  //   { title: 'Teste 1', id: 1 },
-  //   { title: 'Teste 2', id: 2 },
-  //   { title: 'Teste 3', id: 3 }
-  // ]
-
-  const handleSubmitData = (data) => {
-    console.log('submit', data);
-    reset();
+const states = [
+  {
+    value: 'SUPMAST',
+    label: 'SUPMAST'
+  },
+  {
+    value: 'GECAM',
+    label: 'GECAM'
+  },
+  {
+    value: 'SUPMER',
+    label: 'SUPMER'
+  },
+  {
+    value: '---',
+    label: '---'
   }
+];
+
+export default function EditUser(props) {
+  const [values, setValues] = useState({
+    firstName: 'Anika',
+    lastName: 'Visser',
+    email: 'demo@devias.io',
+    phone: '',
+    state: '---',
+    country: 'USA',
+    isactive: false,
+    jobtitle: 'default'
+  });
 
   useEffect(() => {
-    const retrieve = async () => {
-      const retrieved = await axios.get('http://10.254.4.132:3010/api/consultarcidade')
-      console.log(retrieved)
-      setCidades(retrieved.data)
-    }
+    const fetchUserFromDatabase = async () => {
+      try {
+        if (String(props.id).length > 0) {
+          // Replace this with your actual database fetch logic
+          const response = await axios.put('http://10.254.4.132:3010/api/getexclusive', { id: props.id })
+          // console.log(response.data[0])
+          // const userData = await response.json();
+          // console.log(JSON.parse(response))
+          setValues(response.data[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
 
-    retrieve()
-  })
+    fetchUserFromDatabase();
+  }, [])
+
+  const handleChange = useCallback(
+    (event) => {
+      setValues((prevState) => ({
+        ...prevState,
+        [event.target.name]: event.target.value
+      }));
+    },
+    []
+  );
+
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      console.log(event.target)
+    },
+    []
+  );
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        width: 500,
-        padding: 3,
-        maxWidth: '100%',
-        boxSizing: 'border-box',
-      }}
+    <form
+      autoComplete="off"
+      noValidate
+      onSubmit={handleSubmit}
     >
-      <h2>Cadastrar Prédio</h2>
-      <form onSubmit={handleSubmit(handleSubmitData)}>
-        <TextField
-          style={{ marginBottom: 10 }}
-          fullWidth
-          variant="outlined"
-          label="Nome do Prédio"
-          {...register("nomePredio", { required: "* Text cannot be empty" })}
-          error={!!errors.nomePredio}
-          helperText={errors.nomePredio ? errors.nomePredio.message : ""}
+      <Card>
+        <CardHeader
+          subheader="Edite as informações"
+          title="Perfil"
         />
+        <CardContent sx={{ pt: 0 }}>
+          <Box sx={{ m: -1.5 }}>
+            <Grid
+              container
+              spacing={3}
+            >
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField
+                  fullWidth
+                  helperText="Please specify the first name"
+                  label="Primeiro nome"
+                  name="firstName"
+                  onChange={handleChange}
+                  required
+                  value={values.firstName}
+                />
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField
+                  fullWidth
+                  label="Sobrenome"
+                  name="lastName"
+                  onChange={handleChange}
+                  required
+                  value={values.lastName}
+                />
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField
+                  fullWidth
+                  label="Email"
+                  name="email"
+                  onChange={handleChange}
+                  required
+                  value={values.email}
+                />
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField
+                  fullWidth
+                  label="Telefone"
+                  name="phone"
+                  onChange={handleChange}
+                  type="number"
+                  value={values.phone}
+                />
 
-        <TextField
-          style={{ marginBottom: 10 }}
-          fullWidth
-          variant="outlined"
-          label="Nome Abreviado"
-          {...register("nomeSetor", { required: "* Text cannot be empty" })}
-          error={!!errors.nomeAbreviado}
-          helperText={errors.nomeAbreviado ? errors.nomeAbreviado.message : ""}
-        />
-        
-        <Controller
-          name="Cidade"
-          control={control}
-          rules={{ required: "* Select an option" }}
-          render={({ field, fieldState: { error } }) => {
-            const { onChange, ref, value } = field;
-            return (
-              <Autocomplete
-                style={{ marginTop: 10, marginBottom: 10 }}
-                options={cidades}
-                value={value || null}
-                getOptionLabel={(option) => {
-                  return option.title;
-                }}
-                isOptionEqualToValue={(option, value) => {
-                  return option?.id === value?.id;
-                }}
-                onChange={(event, newValue) => {
-                  onChange(newValue);
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    label="Cidade"
-                    {...params}
-                    inputRef={ref}
-                    error={!!errors.Cidade}
-                    helperText={errors.Cidade ? error.message : ""}
-                  />
-                )}
-              />
-            )
-          }}
-        />
 
-        <Controller
-          name="switchFieldName"
-          control={control}
-          defaultValue={true}
-          render={({ field: { value, ...field } }) => (
-            <FormControlLabel
-              {...field}
-              checked={value}
-              control={<Switch />}
-              label="Ativa para uso"
-            />
-          )}
-        />
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                <TextField
+                  fullWidth
+                  label="Função"
+                  name="funcao"
+                  onChange={handleChange}
+                  value={values.jobtitle}
+                />
 
-        <Button
-          type="submit"
-          size="large"
-          variant="contained"
-          fullWidth
-          style={{ marginTop: 10 }}
-        >
-          Continue
-        </Button>
-      </form>
-    </Box>
-  )
-}
+
+              </Grid>
+              <Grid
+                xs={12}
+                md={6}
+              >
+                {/* <TextField
+                  fullWidth
+                  label="Setor"
+                  name="country"
+                  onChange={handleChange}
+                  required
+                  value={values.country}
+                /> */}
+                <TextField
+                  fullWidth
+                  label="Select Setor"
+                  name="state"
+                  onChange={handleChange}
+                  required
+                  select
+                  SelectProps={{ native: true }}
+                  value={values.state}
+                >
+                  {states.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </TextField>
+              </Grid>
+              {/* <Grid
+                xs={12}
+                md={6}
+              >
+               
+              </Grid> */}
+
+
+              <Grid
+                xs={12}
+                md={12}
+              >
+
+                <div style={{display: "flex", justifyContent: "center"}}>
+                <label style={{display: "flex", alignItems: "center"}}>Ativo?</label>
+                {values.isactive && <Switch defaultChecked></Switch>}
+                {!values.isactive &&  <Switch></Switch>}
+                </div>
+              </Grid>
+            </Grid>
+          </Box>
+        </CardContent>
+        <Divider />
+        <CardActions sx={{ justifyContent: 'flex-end' }}>
+          <Button type='submit' variant="contained">
+            Salvar
+          </Button>
+        </CardActions>
+      </Card>
+    </form>
+  );
+};

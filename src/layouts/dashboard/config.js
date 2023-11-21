@@ -13,7 +13,7 @@ import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: 'Overview',
+    title: 'Adm',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
@@ -21,17 +21,17 @@ export const items = [
       </SvgIcon>
     )
   },
+  // {
+  //   title: 'Ultimas Alterações',
+  //   path: '/customers',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UsersIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
-    title: 'Ultimas Alterações',
-    path: '/customers',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UsersIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Criar laudo',
+    title: 'Operacional',
     path: '/formulario_laboratorio',
     icon: (
       <SvgIcon fontSize="small">
@@ -40,15 +40,90 @@ export const items = [
     )
   },
   
+ 
+  
+  // {
+  //   title: 'Login',
+  //   path: '/auth/login',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <LockClosedIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
-    title: 'Contatos e Redes',
-    path: '/companies',
+    title: 'Registrar Usuário',
+    path: '/auth/register',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <AddIcon />
       </SvgIcon>
     )
   },
+  // {
+  //   title: 'Error',
+  //   path: '/404',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <XCircleIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Listar Usuarios',
+  //   path: '/listarusuario',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <FormatListBulletedIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  {
+    title: 'Cadastrar',
+    path: '/cadastraunidade',
+    icon: (
+      <SvgIcon fontSize="small">
+        <AddIcon />
+      </SvgIcon>
+    )
+  },
+  // {
+  //   title: 'Cadastrar Cidade',
+  //   path: '/cadastrarcidades',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <AddIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Cadastrar Prédio',
+  //   path: '/cadastrarpredio',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <AddIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'xyp9x',
+  //   path: '/laiouteste',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <AddIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+
+  // {
+  //   title: 'Contatos e Redes',
+  //   path: '/companies',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <ShoppingBagIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Usuario',
     path: '/account',
@@ -64,78 +139,6 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <CogIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Login',
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Registrar Usuario',
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <AddIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Error',
-    path: '/404',
-    icon: (
-      <SvgIcon fontSize="small">
-        <XCircleIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Listar Usuarios',
-    path: '/listarusuario',
-    icon: (
-      <SvgIcon fontSize="small">
-        <FormatListBulletedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Cadastrar Unidade',
-    path: '/cadastraunidade',
-    icon: (
-      <SvgIcon fontSize="small">
-        <AddIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Cadastrar Cidade',
-    path: '/cadastrarcidades',
-    icon: (
-      <SvgIcon fontSize="small">
-        <AddIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Cadastrar Prédio',
-    path: '/cadastrarpredio',
-    icon: (
-      <SvgIcon fontSize="small">
-        <AddIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'xyp9x',
-    path: '/laiouteste',
-    icon: (
-      <SvgIcon fontSize="small">
-        <AddIcon />
       </SvgIcon>
     )
   },

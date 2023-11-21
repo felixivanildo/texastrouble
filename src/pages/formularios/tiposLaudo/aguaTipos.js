@@ -4,9 +4,9 @@ export async function Tipo (data){
 
     // console.log(data.report)
 
-    if(data.agua= "agua_bruta"){
+    if(data.agua==="agua_bruta"){
         
-            if(data.report=== "fisico_quimico"){
+            if(data.report==="fisico_quimico"){
                 return [{ "name": "ph" },
                 { "name": "cor_aparente" },
                 { "name": "turbidez" },
@@ -69,8 +69,8 @@ export async function Tipo (data){
     }
 
 
-    if(data.agua="Água Tratada"){
-        if(data.report="fisico_quimico"){
+    if(data.agua==="agua_tratada"){
+        if(data.report==="fisico_quimico"){
             return [ { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
             { "name": "cor_verdadeira", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
             { "name": "turbidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
@@ -100,7 +100,7 @@ export async function Tipo (data){
         }
 
 
-        if(data.report="bacteriologica"){
+        if(data.report==="bacteriologica"){
             return [
                 { "name": "numero_amostra", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
                 { "name": "data_coleta", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
@@ -116,7 +116,8 @@ export async function Tipo (data){
 
 
 
-        if(data.report="iqa_eta_poco"){
+        if(data.report==="iqa_eta_poco"){
+            console.log('entrei')
             return [
                 { "name": "data_coleta", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
                 { "name": "ponto_coleta", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
@@ -130,7 +131,7 @@ export async function Tipo (data){
 
 
 
-        if(data.report="snis"){
+        if(data.report==="snis"){
             return [
                 { "name": "municipio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
                 { "name": "quantidade_minima_amostras_cloro_residual", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },

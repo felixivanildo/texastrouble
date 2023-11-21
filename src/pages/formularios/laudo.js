@@ -3,6 +3,8 @@ import axios from "axios";
 import { useForm, Controller } from 'react-hook-form';
 import { Button, TextField, Select, MenuItem } from "@mui/material";
 import { CloudUpload, TipsAndUpdatesOutlined } from "@mui/icons-material";
+import Tabs from "@mui/material";
+import Tab from "@mui/material";
 import { Tipo } from "./tiposLaudo/aguaTipos";
 //import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,13 +12,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { VisuallyHiddenInput } from "@chakra-ui/visually-hidden";
 
-export default function Laudo() {
+export default function Laudo(props) {
     const { handleSubmit, control } = useForm();
     const [selectedImage, setSelectedImage] = useState([]);
     const [sectors, setSectors] = useState([{}])
     const [currentuser, setCurrentUser] = useState([{}])
     const [selectedName, setSelectedName] = useState("");
     const [fotoMensagem, setFotoMensagem] = useState("");
+    const [isVisible, setVisible] = useState (false)
+    const [curroption, setCurroption] = useState ('')
 
     const onSubmit = (data) => {
 
@@ -26,8 +30,8 @@ export default function Laudo() {
 
     const handleSelect = (data) => {
         // console.log(data)
-
-        Tipo({"agua": "agua_bruta", "report": data}).then((e)=>{
+        // console.log({ "agua": props.agua ?? '', "report": data ?? 'fisico_quimico' })
+        Tipo({ "agua": props.agua ?? '', "report": data ?? 'fisico_quimico' }).then((e) => {
             // console.log(typeof(e))
             setJson(e)
         })
@@ -75,6 +79,16 @@ export default function Laudo() {
 
     useEffect(() => {
         const autoexec = async () => {
+            setTipos(props.agua === 'agua_bruta' ? [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
+            { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
+            { "tipo": "clorofila", "name": "CLOROFILA" }]
+            :             
+            [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
+            { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
+            { "tipo": "iqa_eta_poco", "name": "ETA POÇO" },
+            { "tipo": "snis", "name": "SNIS" }]
+            
+            )
             const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
             const user = await AsyncStorage.getItem('@user')
             setSectors(elaborate.data)
@@ -84,73 +98,62 @@ export default function Laudo() {
         autoexec()
     }, [])
 
-    const [tipos, setTipos] = useState ([
-        {"tipo": "fisico_quimico", "name":"FÍSICO QUIMICO"},
-        {"tipo": "bacteriologica", "name":"BACTERIOLOGICA"},
-        {"tipo": "clorofila", "name": "CLOROFILA"}
-    
+    const [tipos, setTipos] = useState([
+        {}
+
     ])
 
-    const [json, setJson] = useState ( [
+    const [json, setJson] = useState([
         { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "corverdadeira", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "turbidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "condutanciaespecifica", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "acidez", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadeoh", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadeco", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "alcalinidadehco", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezatotal", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezacarbonatos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "durezancarbonatos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "calcio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "magnesio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "cloretos", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "silica", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "sulfato", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "amonia", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "nitrato", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "nitrito", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "ferrototal", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "sodio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "potassio", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "solidostotais", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "colifornestotais", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "escherichiacoli", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-        { "name": "indice_nitrato_nitrito", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
+               
+    ])
 
-    ]) 
-    
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
 
         <div>
 
-            <div>
-                <Button style={{backgroundColor:`wheat`}}>ÁGUA BRUTA</Button>
-                <Button>ÁGUA TRATADA</Button>
+            <div >
 
-                {tipos.map((column) => (
-                 <div key={column.tipo}>
-                 <Button onClick={()=>{handleSelect(column.tipo)}}>{column.name}</Button>
-                 </div>
-                ))}
+                <div style={{ display: 'flex', flexDirection: "row", justifyContent: "center" }}>
+                    {/* <Button style={{ backgroundColor: `wheat` }}>ÁGUA BRUTA</Button>
+                    <Button>ÁGUA TRATADA</Button>
 
+                    <div> */}
+                    {tipos.map((column) => (
+                        <div key={column.tipo}>
+                            <Button style={{ backgroundColor: column.name === curroption? 'wheat' : '' }}
+                                    onClick={() => { handleSelect(column.tipo); !isVisible? setVisible(true) : setVisible(true);
+                                    setCurroption(`${column.name}`)
+                                    }}>
+                                {column.name}
+                            </Button>
+                        </div>
+                    ))}
+                    {/* </div> */}
+                </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}  style={{ display: isVisible ? 'block' : 'none' }}>
 
                 <div>
                     <Controller
                         name={'reportname'}
                         control={control}
-                        defaultValue="" 
+                        defaultValue=""
                         render={({ field }) => (
+
                             <TextField
-                                variant="outlined" 
+                                variant="outlined"
                                 InputProps={{ sx: { borderRadius: "10px" } }}
                                 style={{ minWidth: "100%", marginTop: "15px" }}
-                                id="outlined-static" 
-                                label="Nome do Laudo" 
-                                size="small" 
+                                id="outlined-static"
+                                label="Nome do Laudo"
+                                size="small"
                                 {...field}
                             />
                         )}
@@ -166,16 +169,16 @@ export default function Laudo() {
                             <Controller
                                 name={column.name}
                                 control={control}
-                                defaultValue="" 
+                                defaultValue=""
                                 render={({ field }) => (
                                     <TextField
                                         InputProps={{ sx: { borderRadius: "10px" } }}
                                         style={{ minWidth: "100%" }}
-                                        id="outlined-basic" 
+                                        id="outlined-basic"
                                         label={column.name}
-                                        variant="outlined" 
-                                        size="small" 
-                                        type="text" 
+                                        variant="outlined"
+                                        size="small"
+                                        type="text"
                                         {...field}
 
                                     />
@@ -184,81 +187,81 @@ export default function Laudo() {
                         </div>
                     ))}
 
-                        <Controller
-                            name={'sector'}
-                            control={control}
-                            defaultValue="" 
-                            render={({ field }) => (
-                                <Select
-                                    sx={{ borderRadius: "10px" }}
-                                    placeholder="Setor" 
-                                    id="demo-simple-select" 
-                                    size="small" 
-                                    defaultValue="Setor" 
-                                    {...field}
-                                >
-                                    {sectors.map((sec) => (
-                                        <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
-                                    ))}
-                                </Select>
-                            )}
-                        />
+                    <Controller
+                        name={'sector'}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <Select
+                                sx={{ borderRadius: "10px" }}
+                                placeholder="Setor"
+                                id="demo-simple-select"
+                                size="small"
+                                defaultValue="Setor"
+                                {...field}
+                            >
+                                {sectors.map((sec) => (
+                                    <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                ))}
+                            </Select>
+                        )}
+                    />
 
                     <Controller
                         name={'notes'}
                         control={control}
-                        defaultValue="" 
+                        defaultValue=""
                         render={({ field }) => (
                             <TextField
                                 InputProps={{ sx: { borderRadius: "10px" } }}
-                                className="item-select" 
-                                id="outlined-multiline-static" 
-                                label="Nota" 
+                                className="item-select"
+                                id="outlined-multiline-static"
+                                label="Nota"
                                 multiline
                                 rows={4}
-                                defaultValue="Default Value" 
+                                defaultValue="Default Value"
                                 {...field}
                             />
                         )}
                     />
                 </div>
 
-                  <div style={{display: "flex", alignItems: "center", justifyContent: "space-evenly", flexDirection:"column"}}>
-                        <Button
-                            size="small" 
-                            color="secondary" 
-                            component="label" 
-                            variant="contained" 
-                            startIcon={<CloudUpload />}
-                            style={{
-                                marginTop: "10px",
-                                position: "relative",
-                            }}
-                        >
-                            Anexar Fotos
-                            <VisuallyHiddenInput
-                                multiple
-                                type="file" 
-                                onChange={handleImageChange}
-                            />
-                        </Button>
-
-                        <div style={{display:"flex", justifyContent:"center", paddingBottom:"20px"}}>
-                        <p style={{fontSize: 16, }}>{fotoMensagem}</p>
-                        </div>
-                  </div>
-
-                  
-
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-evenly", flexDirection: "column" }}>
                     <Button
-                        style={{ marginTop: "20px", padding: 10 }}
-                        fullWidth
-                        type="submit" 
-                        color="primary" 
-                        variant="contained" 
+                        size="small"
+                        color="secondary"
+                        component="label"
+                        variant="contained"
+                        startIcon={<CloudUpload />}
+                        style={{
+                            marginTop: "10px",
+                            position: "relative",
+                        }}
                     >
-                        Submit
+                        Anexar Fotos
+                        <VisuallyHiddenInput
+                            multiple
+                            type="file"
+                            onChange={handleImageChange}
+                        />
                     </Button>
+
+                    <div style={{ display: "flex", justifyContent: "center", paddingBottom: "20px" }}>
+                        <p style={{ fontSize: 16, }}>{fotoMensagem}</p>
+                    </div>
+                </div>
+
+
+
+                <Button
+                    style={{ marginTop: "20px", padding: 10 }}
+                    fullWidth
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                >
+                    Submit
+                </Button>
             </form>
         </div>
     );

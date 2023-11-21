@@ -156,7 +156,8 @@ export const AuthProvider = (props) => {
       state: validation.data.info.city,
       firstName: validation.data.info.firstname,
       role: validation.data.info.userrole,
-      isactive: validation.data.info.isactive
+      isactive: validation.data.info.isactive,
+      phone: validation.data.info.phone
     };
 
     // console.log(user)
