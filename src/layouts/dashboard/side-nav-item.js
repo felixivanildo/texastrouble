@@ -105,7 +105,11 @@ export const SideNavItem = (props) => {
 
 
 
-      {title === 'Criar Laudo' &&
+      {/*  */}
+
+
+
+{title === 'Operacional' &&
         <ButtonBase onClick={() => { handlechange() }}
           sx={{
             alignItems: 'center',
@@ -172,6 +176,7 @@ export const SideNavItem = (props) => {
 
 
       }
+
 
 
 {title === 'Cadastrar' &&
@@ -246,7 +251,7 @@ export const SideNavItem = (props) => {
      
 
 
-    {title !== 'Registrar Usuário' && title !== "Criar Laudo" && title !== 'Cadastrar' && title !== 'Adm' &&
+    {title !== 'Registrar Usuário' && title !== "Operacional" && title !== 'Cadastrar' && title !== 'Adm' &&
        <ButtonBase onClick={() => { handlechange() }}
           sx={{
             alignItems: 'center',
@@ -342,7 +347,7 @@ export const SideNavItem = (props) => {
           <br></br>
           <Button href='/cadastrarpredio'>Cadastrar Prédio</Button>
           <br/>
-          <Button href='/cadastrarunidade'>Cadastrar Unidade</Button>
+          <Button href='/cadastrarunidade'>Cadastrar Prédio</Button>
         </div>
 
       }

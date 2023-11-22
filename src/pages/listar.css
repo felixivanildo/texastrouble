@@ -110,9 +110,15 @@ h1{
   }
 
   .mainform{
-    display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px; /* Adjust the gap as needed */
+    display: flex;
+    flex-direction: column;
+
+  /* grid-template-columns: repeat(1, 1fr);
+  gap: 20px;  */
+  }
+
+  .formitem{
+    margin: 0.5%;
   }
 
 
@@ -120,6 +126,7 @@ h1{
     /* Add styling for your grid items */
     /* border: 1px solid #ccc; */
     padding: 20px;
+    /* margin-bottom: 10px; */
     text-align: center;
   }
 
@@ -135,11 +142,7 @@ h1{
     --secondary-color: #bf1650;
   }
   
-  .mainform {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px; 
-  }
+  
   
   .item:last-child, .item-select:last-child {
     grid-column: span 3;
@@ -222,3 +225,6 @@ h1{
 
 
 
+.tenpercent{
+  margin-top: 10px;
+}

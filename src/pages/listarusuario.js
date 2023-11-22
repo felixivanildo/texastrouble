@@ -9,7 +9,7 @@ import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { margin } from '@mui/system';
-import EditUser from './laiouteste';
+import EditUser from './editarusuario';
 import Modal from '@mui/material/Modal';
 
 

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 import { format } from 'date-fns';
+import JsonTableEditor from 'src/pages/laiouteste';
 import {
   Avatar,
   Box,
@@ -17,6 +19,25 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import Modal from '@mui/material/Modal';
+import { useState, useEffect } from 'react';
+
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80vh',
+  height: '80vh', // Set your desired height
+  overflowX: 'auto', // Add overflow scrolling on the x-axis if needed
+  overflowY: 'auto', // Add overflow scrolling on the y-axis if needed
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 
 export const CustomersTable = (props) => {
   const {
@@ -33,11 +54,36 @@ export const CustomersTable = (props) => {
     selected = []
   } = props;
 
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
+  const [edit, setEdit] = useState('');
+
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 
+  const handleUpdate = async (data) => {
+ 
+    setOpen(true)
+    setEdit(data)
+    // await axios.post('http://10.254.4.132:3010/api/updateUser', data)
+
+  }
+
   return (
+
+
     <Card>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <JsonTableEditor key={edit} id={edit} ></JsonTableEditor>
+        </Box>
+      </Modal>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
           <Table>
@@ -76,9 +122,11 @@ export const CustomersTable = (props) => {
             <TableBody>
               {items.map((customer) => {
                 const isSelected = selected.includes(customer.id);
-                const createdAt = String(customer.createdAt).substring(0,10);
+                const createdAt = String(customer.createdAt).substring(0, 10);
 
                 return (
+
+
 
                   <TableRow
                     hover
@@ -123,7 +171,7 @@ export const CustomersTable = (props) => {
 
                     </TableCell>
                     <TableCell>
-                      <Button onClick={() => { console.log(customer.email) }} style={{margin: "0px", padding: "0px"}}>
+                      <Button onClick={() => { handleUpdate(customer.id) }} style={{ margin: "0px", padding: "0px" }}>
                         {customer.phone}
                       </Button>
                     </TableCell>

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm, Controller } from 'react-hook-form';
 import { Button, TextField, Select, MenuItem } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 import { CloudUpload, TipsAndUpdatesOutlined } from "@mui/icons-material";
-import Tabs from "@mui/material";
-import Tab from "@mui/material";
 import { Tipo } from "./tiposLaudo/aguaTipos";
 //import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,8 +18,8 @@ export default function Laudo(props) {
     const [currentuser, setCurrentUser] = useState([{}])
     const [selectedName, setSelectedName] = useState("");
     const [fotoMensagem, setFotoMensagem] = useState("");
-    const [isVisible, setVisible] = useState (false)
-    const [curroption, setCurroption] = useState ('')
+    const [isVisible, setVisible] = useState(false)
+    const [curroption, setCurroption] = useState('')
 
     const onSubmit = (data) => {
 
@@ -82,12 +81,12 @@ export default function Laudo(props) {
             setTipos(props.agua === 'agua_bruta' ? [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
             { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
             { "tipo": "clorofila", "name": "CLOROFILA" }]
-            :             
-            [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
-            { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
-            { "tipo": "iqa_eta_poco", "name": "ETA POÇO" },
-            { "tipo": "snis", "name": "SNIS" }]
-            
+                :
+                [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
+                { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
+                { "tipo": "iqa_eta_poco", "name": "ETA POÇO" },
+                { "tipo": "snis", "name": "SNIS" }]
+
             )
             const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
             const user = await AsyncStorage.getItem('@user')
@@ -105,7 +104,7 @@ export default function Laudo(props) {
 
     const [json, setJson] = useState([
         { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
-               
+
     ])
 
     const [value, setValue] = React.useState(0);
@@ -127,10 +126,11 @@ export default function Laudo(props) {
                     <div> */}
                     {tipos.map((column) => (
                         <div key={column.tipo}>
-                            <Button style={{ backgroundColor: column.name === curroption? 'wheat' : '' }}
-                                    onClick={() => { handleSelect(column.tipo); !isVisible? setVisible(true) : setVisible(true);
+                            <Button style={{ backgroundColor: column.name === curroption ? 'wheat' : '' }}
+                                onClick={() => {
+                                    handleSelect(column.tipo); !isVisible ? setVisible(true) : setVisible(true);
                                     setCurroption(`${column.name}`)
-                                    }}>
+                                }}>
                                 {column.name}
                             </Button>
                         </div>
@@ -138,7 +138,7 @@ export default function Laudo(props) {
                     {/* </div> */}
                 </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}  style={{ display: isVisible ? 'block' : 'none' }}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ display: isVisible ? 'block' : 'none' }}>
 
                 <div>
                     <Controller
@@ -152,18 +152,84 @@ export default function Laudo(props) {
                                 InputProps={{ sx: { borderRadius: "10px" } }}
                                 style={{ minWidth: "100%", marginTop: "15px" }}
                                 id="outlined-static"
-                                label="Nome do Laudo"
+                                label="Número/Nome da Amostra"
                                 size="small"
                                 {...field}
                             />
                         )}
-                    /></div>
+                    />
+                </div>
+
+                <div>
+                    <Controller
+                        name={'interested'}
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+
+                            <TextField
+                                variant="outlined"
+                                InputProps={{ sx: { borderRadius: "10px" } }}
+                                style={{ minWidth: "100%", marginTop: "15px" }}
+                                id="outlined-static"
+                                label="Intereçado"
+                                size="small"
+                                {...field}
+                            />
+                        )}
+                    />
+
+                </div>
+                <div className="tenpercent">
+                    <Controller
+                        name="collected_on"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <TextField
+                                variant="outlined"
+                                InputProps={{ sx: { borderRadius: "10px" } }}
+                                style={{ minWidth: "100%", marginTop: "15px" }}
+                                id="outlined-static"
+                                label="Local de coleta da amostra"
+                                size="small"
+                                {...field}
+                            />
+                        )}
+                    />
+                </div>
+
+
+                <div className="tenpercent">
+                    <Controller
+                        name="collected_at"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <DatePicker
+                                label="Date"
+                                value={field.value}
+                                inputRef={field.ref}
+                                onChange={(date) => {
+                                    field.onChange(date);
+                                }}
+                                renderInput={(props) => (
+                                    // Customize the input field here if needed
+                                    <TextField {...props} />
+                                )}
+                            />
+                        )}
+                    />
+                </div>
+                <br></br>
+                <hr></hr>
+
 
                 <br></br>
                 <div className="mainform">
                     {/* Loop through columns in JSON and create form fields */}
                     {json.map((column) => (
-                        <div key={column.name}>
+                        <div key={column.name} className="formitem">
                             {/* Use Controller to integrate React Hook Form with input fields */}
 
                             <Controller
@@ -177,9 +243,11 @@ export default function Laudo(props) {
                                         id="outlined-basic"
                                         label={column.name}
                                         variant="outlined"
+
                                         size="small"
                                         type="text"
                                         {...field}
+
 
                                     />
                                 )}
@@ -193,6 +261,7 @@ export default function Laudo(props) {
                         defaultValue=""
                         render={({ field }) => (
                             <Select
+                            className="formitem"
                                 sx={{ borderRadius: "10px" }}
                                 placeholder="Setor"
                                 id="demo-simple-select"
@@ -213,8 +282,9 @@ export default function Laudo(props) {
                         defaultValue=""
                         render={({ field }) => (
                             <TextField
+                            className="formitem"
                                 InputProps={{ sx: { borderRadius: "10px" } }}
-                                className="item-select"
+                               
                                 id="outlined-multiline-static"
                                 label="Nota"
                                 multiline
