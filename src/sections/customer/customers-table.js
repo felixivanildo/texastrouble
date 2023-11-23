@@ -62,7 +62,7 @@ export const CustomersTable = (props) => {
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 
   const handleUpdate = async (data) => {
- 
+
     setOpen(true)
     setEdit(data)
     // await axios.post('http://10.254.4.132:3010/api/updateUser', data)
@@ -81,6 +81,9 @@ export const CustomersTable = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            {items.phone}
+          </Typography>
           <JsonTableEditor key={edit} id={edit} ></JsonTableEditor>
         </Box>
       </Modal>
