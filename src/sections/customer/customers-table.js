@@ -28,7 +28,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80vh',
+  width: '90vw',
   height: '80vh', // Set your desired height
   overflowX: 'auto', // Add overflow scrolling on the x-axis if needed
   overflowY: 'auto', // Add overflow scrolling on the y-axis if needed
@@ -57,13 +57,15 @@ export const CustomersTable = (props) => {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const [edit, setEdit] = useState('');
+  const [selectedRepo, setSelectedtRepo] = useState ('')
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
 
-  const handleUpdate = async (data) => {
+  const handleUpdate = async (data, name) => {
 
     setOpen(true)
+    setSelectedtRepo(name)
     setEdit(data)
     // await axios.post('http://10.254.4.132:3010/api/updateUser', data)
 
@@ -81,10 +83,14 @@ export const CustomersTable = (props) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {items.phone}
-          </Typography>
-          <JsonTableEditor key={edit} id={edit} ></JsonTableEditor>
+
+          <h2>
+
+            {selectedRepo}
+          </h2>
+          <div>
+            <JsonTableEditor key={edit} id={edit} ></JsonTableEditor>
+          </div>
         </Box>
       </Modal>
       <Scrollbar>
@@ -174,7 +180,7 @@ export const CustomersTable = (props) => {
 
                     </TableCell>
                     <TableCell>
-                      <Button onClick={() => { handleUpdate(customer.id) }} style={{ margin: "0px", padding: "0px" }}>
+                      <Button onClick={() => { handleUpdate(customer.id, customer.phone) }} style={{ margin: "0px", padding: "0px" }}>
                         {customer.phone}
                       </Button>
                     </TableCell>

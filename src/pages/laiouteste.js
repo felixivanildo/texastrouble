@@ -7,10 +7,14 @@ import DataComponent from './imagevisualiser';
 
 const style = {
   position: 'absolute',
+  display: 'flex',
+  flexDirection: 'row',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 800,
+  width: '90vw',
+  height: '80vh',
+  overflow: "scroll",
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -76,7 +80,11 @@ const JsonTableEditor = (props) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
+            <div>
             <DataComponent files={files}></DataComponent>
+            <br></br>
+            <Button  style={{backgroundColor: "var(--primary-color)", color:"white"}}>Adicionar Nova Imagem</Button>
+            </div>
           </Box>
         </Modal>
         <form onSubmit={handleSubmit(onSubmit)}>

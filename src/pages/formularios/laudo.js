@@ -5,11 +5,13 @@ import { Button, TextField, Select, MenuItem } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { CloudUpload, TipsAndUpdatesOutlined } from "@mui/icons-material";
 import { Tipo } from "./tiposLaudo/aguaTipos";
-//import { Throw } from "src/components/functions/Rdminethrow";
+import { Throw } from "src/components/functions/Rdminethrow";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import './Laudo.css'
 // import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { VisuallyHiddenInput } from "@chakra-ui/visually-hidden";
+import { getValue } from "@mui/system";
+
 
 export default function Laudo(props) {
     const { handleSubmit, control } = useForm();
@@ -20,11 +22,18 @@ export default function Laudo(props) {
     const [fotoMensagem, setFotoMensagem] = useState("");
     const [isVisible, setVisible] = useState(false)
     const [curroption, setCurroption] = useState('')
+    
+    // const [dynamicname, setDynamicName] = useState('clicka')
+
+
+    // const handleTextFieldChange = (event) => {
+    //     const newValue = event.target.value;
+    //     setDynamicName(newValue);
+    //   };
 
     const onSubmit = (data) => {
-
-        console.log(data)
-        // Throw(currentuser,data,selectedImage)
+        Throw(currentuser, data, selectedImage)
+        
     };
 
     const handleSelect = (data) => {
@@ -78,24 +87,30 @@ export default function Laudo(props) {
 
     useEffect(() => {
         const autoexec = async () => {
+           
+            // console.log(start, rest)
+            // console.log()
+
             setTipos(props.agua === 'agua_bruta' ? [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
             { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
             { "tipo": "clorofila", "name": "CLOROFILA" }]
                 :
                 [{ "tipo": "fisico_quimico", "name": "FÍSICO QUIMICO" },
-                { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" },
-                { "tipo": "iqa_eta_poco", "name": "ETA POÇO" },
-                { "tipo": "snis", "name": "SNIS" }]
+                { "tipo": "bacteriologica", "name": "BACTERIOLOGICA" }]
 
             )
             const elaborate = await axios.get('http://10.254.4.132:3010/api/sectors')
             const user = await AsyncStorage.getItem('@user')
             setSectors(elaborate.data)
             setCurrentUser(JSON.parse(user))
+            
         }
 
         autoexec()
     }, [])
+
+
+
 
     const [tipos, setTipos] = useState([
         {}
@@ -103,7 +118,7 @@ export default function Laudo(props) {
     ])
 
     const [json, setJson] = useState([
-        { "name": "ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
+        { "name": "fq_ph", "text": "character varying(15) COLLATE pg_catalog.\"default\"" },
 
     ])
 
@@ -113,6 +128,9 @@ export default function Laudo(props) {
         setValue(newValue);
     };
 
+
+
+
     return (
 
         <div>
@@ -120,10 +138,7 @@ export default function Laudo(props) {
             <div >
 
                 <div style={{ display: 'flex', flexDirection: "row", justifyContent: "center" }}>
-                    {/* <Button style={{ backgroundColor: `wheat` }}>ÁGUA BRUTA</Button>
-                    <Button>ÁGUA TRATADA</Button>
 
-                    <div> */}
                     {tipos.map((column) => (
                         <div key={column.tipo}>
                             <Button style={{ backgroundColor: column.name === curroption ? 'wheat' : '' }}
@@ -140,22 +155,30 @@ export default function Laudo(props) {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: isVisible ? 'block' : 'none' }}>
 
-                <div>
+                <div >
                     <Controller
                         name={'reportname'}
                         control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-
+                        defaultValue={props.name}  // Set defaultValue to dynamicname
+                        render={({field}) => (
+                        <>
+                             <label>NÚMERO DA AMOSTRA</label>
+                             {/* {console.log(field)} */}
                             <TextField
+                            
                                 variant="outlined"
+                                disabled                                               
                                 InputProps={{ sx: { borderRadius: "10px" } }}
                                 style={{ minWidth: "100%", marginTop: "15px" }}
-                                id="outlined-static"
-                                label="Número/Nome da Amostra"
+                                id="outlined-static"                            
                                 size="small"
-                                {...field}
+                                placeholder={props.name}
+                                // {...field}
+                                
+                                // {...field}
+                                
                             />
+                            </>
                         )}
                     />
                 </div>
@@ -166,7 +189,9 @@ export default function Laudo(props) {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-
+                            <>
+                            
+                            <label>INTEREÇADO</label>
                             <TextField
                                 variant="outlined"
                                 InputProps={{ sx: { borderRadius: "10px" } }}
@@ -176,6 +201,7 @@ export default function Laudo(props) {
                                 size="small"
                                 {...field}
                             />
+                            </>
                         )}
                     />
 
@@ -186,15 +212,18 @@ export default function Laudo(props) {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
+                            <>
+                            <label>LOCAL DA COLETA</label>
                             <TextField
-                                variant="outlined"
-                                InputProps={{ sx: { borderRadius: "10px" } }}
-                                style={{ minWidth: "100%", marginTop: "15px" }}
-                                id="outlined-static"
-                                label="Local de coleta da amostra"
-                                size="small"
-                                {...field}
+                            variant="outlined"
+                            InputProps={{ sx: { borderRadius: "10px" } }}
+                            style={{ minWidth: "100%", marginTop: "15px" }}
+                            id="outlined-static"
+                            label="Local de coleta da amostra"
+                            size="small"
+                            {...field}
                             />
+                            </>
                         )}
                     />
                 </div>
@@ -237,19 +266,21 @@ export default function Laudo(props) {
                                 control={control}
                                 defaultValue=""
                                 render={({ field }) => (
-                                    <TextField
-                                        InputProps={{ sx: { borderRadius: "10px" } }}
-                                        style={{ minWidth: "100%" }}
-                                        id="outlined-basic"
-                                        label={column.name}
-                                        variant="outlined"
+                                    <div >
+                                        <label>{column.text}</label>
+                                        <TextField
+                                            InputProps={{ sx: { borderRadius: "10px" } }}
+                                            style={{ minWidth: "100%" }}
+                                            id="outlined-basic"
 
-                                        size="small"
-                                        type="text"
-                                        {...field}
+                                            variant="outlined"
+                                            size="small"
+                                            type="text"
+                                            {...field}
 
 
-                                    />
+                                        />
+                                    </div>
                                 )}
                             />
                         </div>
@@ -260,19 +291,22 @@ export default function Laudo(props) {
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
-                            <Select
-                            className="formitem"
-                                sx={{ borderRadius: "10px" }}
-                                placeholder="Setor"
-                                id="demo-simple-select"
-                                size="small"
-                                defaultValue="Setor"
-                                {...field}
-                            >
-                                {sectors.map((sec) => (
-                                    <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
-                                ))}
-                            </Select>
+                            <>
+                                <label>SETOR</label>
+                                <Select
+                                    className="formitem"
+                                    sx={{ borderRadius: "10px" }}
+
+                                    id="demo-simple-select"
+                                    size="small"
+
+                                    {...field}
+                                >
+                                    {sectors.map((sec) => (
+                                        <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                    ))}
+                                </Select>
+                            </>
                         )}
                     />
 
@@ -282,9 +316,9 @@ export default function Laudo(props) {
                         defaultValue=""
                         render={({ field }) => (
                             <TextField
-                            className="formitem"
+                                className="formitem"
                                 InputProps={{ sx: { borderRadius: "10px" } }}
-                               
+
                                 id="outlined-multiline-static"
                                 label="Nota"
                                 multiline

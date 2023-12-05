@@ -69,12 +69,19 @@ html::-webkit-scrollbar-thumb {
     }
 
     
+    
     .styled-table th,
 .styled-table td {
     padding: 2px 5px;
+    font-size: 0.5rem;
 }
 
-
+.imagemrelatorio{
+  
+  width: 200px;
+  height: 300px;
+ 
+}
     
 h1{
     margin-left: 0%;
@@ -228,3 +235,19 @@ h1{
 .tenpercent{
   margin-top: 10px;
 }
+
+.imagemrelatorio{
+  
+  width: 20%;
+  height: 35%;
+ 
+}
+
+.imagemrelatorio:hover{
+  
+  opacity: 0.5;
+}
+
+
+
+

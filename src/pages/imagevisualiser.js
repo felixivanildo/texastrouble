@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from '@mui/material';
+import { style } from '@mui/system';
 
 const DataComponent = (props) => {
     const [data, setData] = useState(null);
@@ -18,13 +20,14 @@ const DataComponent = (props) => {
         <div>
             {data && (
                 <div>
-
+                    
 
                     {data.map((item) => {
                         return (
-                            <div>
-                                <img key={item} src={`data:image/jpeg;base64,${item.image}`} />;
-                            </div>
+                                < >
+                                <img key={item} className='imagemrelatorio' src={`data:image/jpeg;base64,${item.image}` } />
+                                <Button>Delete</Button>
+                                </>
                         )
                     })}
 
