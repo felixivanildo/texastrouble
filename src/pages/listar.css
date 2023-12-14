@@ -238,14 +238,10 @@ h1{
 
 .imagemrelatorio{
   
-  width: 20%;
-  height: 35%;
+  /* width: 100%; */
+  width: 300px;
+  height: 300px;
  
-}
-
-.imagemrelatorio:hover{
-  
-  opacity: 0.5;
 }
 
 

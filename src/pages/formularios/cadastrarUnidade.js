@@ -18,7 +18,7 @@ export default function CadastrarUnidadeOrganizacional() {
     const handleSubmitData = async (data) => {
         
         try {
-            await axios.post('http://10.254.4.132:3010/api/cadastrarunidade', data).then((e)=>{
+            await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "unidade"}).then((e)=>{
                 alert(e.data.message)
             })
             reset({ nomeUnidadeOrg: "" });

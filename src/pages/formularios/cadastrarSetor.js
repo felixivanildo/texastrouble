@@ -8,8 +8,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
 
-export default function CantonadastrarPredio() {
-  const [cidades, setCidades] = useState([{}])
+export default function CadastrarSetor() {
+  const [predios, setPredios] = useState([{}])
 
   const {
     register,
@@ -26,7 +26,8 @@ export default function CantonadastrarPredio() {
   // ]
 
   const handleSubmitData = async (data) => {
-    await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "predio"} ).then((e)=>{
+    console.log(data)
+    await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "setor"} ).then((e)=>{
         alert(e.data.message)
     })
     reset();
@@ -34,9 +35,9 @@ export default function CantonadastrarPredio() {
 
   useEffect(() => {
     const retrieve = async () => {
-      const retrieved = await axios.get('http://10.254.4.132:3010/api/consultarcidade')
+      const retrieved = await axios.get('http://10.254.4.132:3010/api/getbuilding')
       console.log(retrieved)
-      setCidades(retrieved.data)
+      setPredios(retrieved.data)
     }
 
     retrieve()
@@ -54,16 +55,16 @@ export default function CantonadastrarPredio() {
         boxSizing: 'border-box',
       }}
     >
-      <h2>Cadastrar Prédio</h2>
+      <h2>Cadastrar Setor</h2>
       <form onSubmit={handleSubmit(handleSubmitData)}>
         <TextField
           style={{ marginBottom: 10 }}
           fullWidth
           variant="outlined"
-          label="Nome do Prédio"
-          {...register("nomePredio", { required: "* Não pode ficar vazio" })}
-          error={!!errors.nomePredio}
-          helperText={errors.nomePredio ? errors.nomePredio.message : ""}
+          label="Nome do Setor"
+          {...register("nomeSetor", { required: "* Não pode ficar vazio" })}
+          error={!!errors.nomeSetor}
+          helperText={errors.nomeSetor ? errors.nomeSetor.message : ""}
         />
 
         <TextField
@@ -77,7 +78,7 @@ export default function CantonadastrarPredio() {
         />
 
         <Controller
-          name="Cidade"
+          name="Predio"
           control={control}
           rules={{ required: "* Selecione uma opção" }}
           render={({ field, fieldState: { error } }) => {
@@ -85,7 +86,7 @@ export default function CantonadastrarPredio() {
             return (
               <Autocomplete
                 style={{ marginTop: 10, marginBottom: 10 }}
-                options={cidades}
+                options={predios}
                 value={value || null}
                 getOptionLabel={(option) => {
                   return option.title;
@@ -98,7 +99,7 @@ export default function CantonadastrarPredio() {
                 }}
                 renderInput={(params) => (
                   <TextField
-                    label="Cidade"
+                    label="Prédio"
                     {...params}
                     inputRef={ref}
                     error={!!errors.Cidade}

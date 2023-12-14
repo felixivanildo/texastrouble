@@ -26,7 +26,7 @@ export default function CadastrarCidade() {
   // ]
 
   const handleSubmitData = async (data) => {
-    await axios.post('http://10.254.4.132:3010/api/cadastrarcidade', data).then((e)=>{
+    await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "cidade"} ).then((e)=>{
         alert(e.data.message)
     })
     reset();

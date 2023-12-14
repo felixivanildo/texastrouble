@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { format } from 'date-fns';
-import JsonTableEditor from 'src/pages/laiouteste';
+import JsonTableEditor from 'src/pages/reporteditor';
 import {
   Avatar,
   Box,
@@ -89,7 +89,7 @@ export const CustomersTable = (props) => {
             {selectedRepo}
           </h2>
           <div>
-            <JsonTableEditor key={edit} id={edit} ></JsonTableEditor>
+            <JsonTableEditor reponame={selectedRepo} key={edit} id={edit} ></JsonTableEditor>
           </div>
         </Box>
       </Modal>

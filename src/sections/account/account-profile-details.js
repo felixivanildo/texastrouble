@@ -7,7 +7,7 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  TextField,
+  TextField ,
   Unstable_Grid2 as Grid
 } from '@mui/material';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -96,10 +96,10 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField disabled
                   fullWidth
                   helperText="Please specify the first name"
-                  label="First name"
+                  label="Nome"
                   name="firstName"
                   onChange={handleChange}
                   required
@@ -110,9 +110,9 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField disabled
                   fullWidth
-                  label="Last name"
+                  label="Sobrenome"
                   name="lastName"
                   onChange={handleChange}
                   required
@@ -123,9 +123,9 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField disabled
                   fullWidth
-                  label="Email Address"
+                  label="Email"
                   name="email"
                   onChange={handleChange}
                   required
@@ -136,9 +136,9 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField disabled
                   fullWidth
-                  label="Phone Number"
+                  label="Número"
                   name="phone"
                   onChange={handleChange}
                   type="number"
@@ -149,9 +149,9 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                <TextField disabled
                   fullWidth
-                  label="Country"
+                  label="Setor"
                   name="country"
                   onChange={handleChange}
                   required
@@ -162,7 +162,7 @@ export const AccountProfileDetails = () => {
                 xs={12}
                 md={6}
               >
-                <TextField
+                {/* <TextField disabled
                   fullWidth
                   label="Select State"
                   name="state"
@@ -180,16 +180,16 @@ export const AccountProfileDetails = () => {
                       {option.label}
                     </option>
                   ))}
-                </TextField>
+                </TextField> */}
               </Grid>
             </Grid>
           </Box>
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
+          {/* <Button variant="contained">
             Save details
-          </Button>
+          </Button> */}
         </CardActions>
       </Card>
     </form>

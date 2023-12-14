@@ -8,7 +8,7 @@ export async function Tipo (data){
         
             if(data.report==="fisico_quimico"){
                 return [{ "name": "fq_ph", "text": "PH"},
-                { "name": "fq_cor_aparente", "text": "COR APARENTE"},
+                { "name": "fq_cor_verdadeira", "text": "COR APARENTE"},
                 { "name": "fq_turbidez" , "text": "TURBIDEZ"},
                 { "name": "fq_condutancia_especifica" , "text": "CONDUTANCIA ESPECIFICA"},
                 { "name": "fq_acidez" , "text": "ACIDEZ"},
@@ -65,7 +65,7 @@ export async function Tipo (data){
     if(data.agua==="agua_tratada"){
         if(data.report==="fisico_quimico"){
             return [{ "name": "fq_ph", "text": "PH"},
-                { "name": "fq_cor_aparente", "text": "COR APARENTE"},
+                { "name": "fq_cor_verdadeira", "text": "COR APARENTE"},
                 { "name": "fq_turbidez" , "text": "TURBIDEZ"},
                 { "name": "fq_condutancia_especifica" , "text": "CONDUTANCIA ESPECIFICA"},
                 { "name": "fq_acidez" , "text": "ACIDEZ"},

@@ -155,6 +155,7 @@ export default function Laudo(props) {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: isVisible ? 'block' : 'none' }}>
 
+              <div style={{display: "flex", justifyContent: "space-evenly", alignItems: 'flex-start', flexDirection: "column"}}>
                 <div >
                     <Controller
                         name={'reportname'}
@@ -190,17 +191,20 @@ export default function Laudo(props) {
                         defaultValue=""
                         render={({ field }) => (
                             <>
-                            
-                            <label>INTEREÇADO</label>
-                            <TextField
-                                variant="outlined"
-                                InputProps={{ sx: { borderRadius: "10px" } }}
-                                style={{ minWidth: "100%", marginTop: "15px" }}
-                                id="outlined-static"
-                                label="Intereçado"
-                                size="small"
-                                {...field}
-                            />
+                                <label>INTEREÇADO</label>
+                                <Select
+                                    className="formitem"
+                                    sx={{ borderRadius: "10px" }}
+
+                                    id="demo-simple-select"
+                                    size="small"
+
+                                    {...field}
+                                >
+                                    {sectors.map((sec) => (
+                                        <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                    ))}
+                                </Select>
                             </>
                         )}
                     />
@@ -230,11 +234,14 @@ export default function Laudo(props) {
 
 
                 <div className="tenpercent">
+                
                     <Controller
                         name="collected_at"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
+                            <>
+                            <label>DATA DA COLETA</label>
                             <DatePicker
                                 label="Date"
                                 value={field.value}
@@ -247,8 +254,38 @@ export default function Laudo(props) {
                                     <TextField {...props} />
                                 )}
                             />
+                            </>
                         )}
                     />
+                </div>
+
+
+                <div className="tenpercent">
+                
+                    <Controller
+                        name="collect_type"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <>
+                                <label>TIPO DE COLETA</label>
+                                <Select
+                                    className="formitem"
+                                    sx={{ borderRadius: "10px" }}
+
+                                    id="demo-simple-select"
+                                    size="small"
+
+                                    {...field}
+                                >
+                                    {sectors.map((sec) => (
+                                        <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
+                    />
+                </div>
                 </div>
                 <br></br>
                 <hr></hr>

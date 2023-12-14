@@ -43,5 +43,5 @@ export async function Throw(user, data, image) {
     }
   }
 
-  const withoutfile = await axios.post('http://10.254.4.132:3010/api/postreport', { usuario: user, dados: data })
+  const withoutfile = await axios.post('http://10.254.4.132:3010/api/postreport', { usuario: user, dados: data }).then(async (e)=>{ alert(e.data.message)})
 }
