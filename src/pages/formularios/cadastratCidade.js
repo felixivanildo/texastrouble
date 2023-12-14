@@ -61,7 +61,7 @@ export default function CadastrarCidade() {
           fullWidth
           variant="outlined"
           label="Nome da Cidade"
-          {...register("nomeCidade", { required: "* Text cannot be empty" })}
+          {...register("nomeCidade", { required: "* Não pode ficar vazio" })}
           error={!!errors.nomeCidade}
           helperText={errors.nomeCidade ? errors.nomeCidade.message : ""}
         />
