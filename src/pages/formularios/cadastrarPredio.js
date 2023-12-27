@@ -1,12 +1,16 @@
 import { Controller, useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Switch } from "@mui/material";
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer, toast } from 'react-toastify';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from "@mui/material/Autocomplete";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function CantonadastrarPredio() {
   const [cidades, setCidades] = useState([{}])
@@ -27,7 +31,18 @@ export default function CantonadastrarPredio() {
 
   const handleSubmitData = async (data) => {
     await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "predio"} ).then((e)=>{
-        alert(e.data.message)
+        // alert(String(e.data.message))
+        // return <Alert severity="error">This is an error alert — check it out!</Alert>
+        toast(String(e.data.message), {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
     })
     reset();
   }
@@ -54,8 +69,10 @@ export default function CantonadastrarPredio() {
         boxSizing: 'border-box',
       }}
     >
+      <ToastContainer />
       <h2>Cadastrar Prédio</h2>
       <form onSubmit={handleSubmit(handleSubmitData)}>
+      
         <TextField
           style={{ marginBottom: 10 }}
           fullWidth

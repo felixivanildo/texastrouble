@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import axios from 'axios';
 import { format } from 'date-fns';
 import JsonTableEditor from 'src/pages/reporteditor';
 import {
@@ -19,6 +20,7 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { getInitials } from 'src/utils/get-initials';
+import PrintIcon from '@mui/icons-material/Print';
 import Modal from '@mui/material/Modal';
 import { useState, useEffect } from 'react';
 
@@ -69,6 +71,12 @@ export const CustomersTable = (props) => {
     setEdit(data)
     // await axios.post('http://10.254.4.132:3010/api/updateUser', data)
 
+  }
+
+
+  const handlePrint = async (data) =>{
+      console.log(data)
+      await axios.put("http://10.254.4.132:3010/api/print", {id: data})
   }
 
   return (
@@ -125,6 +133,9 @@ export const CustomersTable = (props) => {
                 </TableCell>
                 <TableCell>
                   Ultima Alteração
+                </TableCell>
+                <TableCell>
+                  Imprimir
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -186,6 +197,11 @@ export const CustomersTable = (props) => {
                     </TableCell>
                     <TableCell>
                       {createdAt}
+                    </TableCell>
+                    <TableCell>
+                      <Button onClick={() => { handlePrint(customer.id) }} style={{paddingLeft: "0", marginLeft: "0"}} startIcon={<PrintIcon/>}>
+                        Imprimir
+                      </Button>
                     </TableCell>
                   </TableRow>
                 );

@@ -18,11 +18,15 @@ export default function Laudo(props) {
     const [selectedImage, setSelectedImage] = useState([]);
     const [sectors, setSectors] = useState([{}])
     const [currentuser, setCurrentUser] = useState([{}])
+    const [colectInterested, setColectInterested] = useState([{}])
+    const [cities, setCities] = useState([{}])
+    const [colectTypes, setColectTypes] = useState([{}])
     const [selectedName, setSelectedName] = useState("");
     const [fotoMensagem, setFotoMensagem] = useState("");
     const [isVisible, setVisible] = useState(false)
     const [curroption, setCurroption] = useState('')
-    
+    const currentDay = new Date ()
+
     // const [dynamicname, setDynamicName] = useState('clicka')
 
 
@@ -33,7 +37,7 @@ export default function Laudo(props) {
 
     const onSubmit = (data) => {
         Throw(currentuser, data, selectedImage)
-        
+
     };
 
     const handleSelect = (data) => {
@@ -87,7 +91,7 @@ export default function Laudo(props) {
 
     useEffect(() => {
         const autoexec = async () => {
-           
+
             // console.log(start, rest)
             // console.log()
 
@@ -103,7 +107,7 @@ export default function Laudo(props) {
             const user = await AsyncStorage.getItem('@user')
             setSectors(elaborate.data)
             setCurrentUser(JSON.parse(user))
-            
+
         }
 
         autoexec()
@@ -111,6 +115,19 @@ export default function Laudo(props) {
 
 
 
+    useEffect(() => {
+        const autoexec = async () => {
+            const collects = await axios.get('http://10.254.4.132:3010/api/colecttypes')
+            const interesteds = await axios.get('http://10.254.4.132:3010/api/interesteds')
+            const city = await axios.get('http://10.254.4.132:3010/api/consultarcidade')
+
+            setColectInterested(interesteds.data)
+            setColectTypes(collects.data)
+            setCities(city.data)
+        }
+
+        autoexec()
+    }, [])
 
     const [tipos, setTipos] = useState([
         {}
@@ -155,43 +172,43 @@ export default function Laudo(props) {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: isVisible ? 'block' : 'none' }}>
 
-              <div style={{display: "flex", justifyContent: "space-evenly", alignItems: 'flex-start', flexDirection: "column"}}>
-                <div >
-                    <Controller
-                        name={'reportname'}
-                        control={control}
-                        defaultValue={props.name}  // Set defaultValue to dynamicname
-                        render={({field}) => (
-                        <>
-                             <label>NÚMERO DA AMOSTRA</label>
-                             {/* {console.log(field)} */}
-                            <TextField
-                            
-                                variant="outlined"
-                                disabled                                               
-                                InputProps={{ sx: { borderRadius: "10px" } }}
-                                style={{ minWidth: "100%", marginTop: "15px" }}
-                                id="outlined-static"                            
-                                size="small"
-                                placeholder={props.name}
-                                // {...field}
-                                
-                                // {...field}
-                                
-                            />
-                            </>
-                        )}
-                    />
-                </div>
+                <div className="mainform" >
+                    
+                        <Controller
+                            name={'reportname'}
+                            control={control}
+                            defaultValue={props.name}  // Set defaultValue to dynamicname
+                            render={({ field }) => (
+                                <>
+                                    <label>NÚMERO DA AMOSTRA</label>
+                                    {/* {console.log(field)} */}
+                                    <TextField
+                                        className="formitem"
+                                        variant="outlined"
+                                        disabled
+                                        InputProps={{ sx: { borderRadius: "10px" } }}
+                                        style={{ minWidth: "100%", marginTop: "15px" }}
+                                        id="outlined-static"
+                                        size="small"
+                                        placeholder={props.name}
+                                    // {...field}
 
-                <div>
+                                    // {...field}
+
+                                    />
+                                </>
+                            )}
+                        />
+                    
+
+
                     <Controller
-                        name={'interested'}
+                        name={'sector'}
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
                             <>
-                                <label>INTEREÇADO</label>
+                                <label style={{ display: "flex", justifyContent: "flex-start", alignContent: "center" }}>SETOR</label>
                                 <Select
                                     className="formitem"
                                     sx={{ borderRadius: "10px" }}
@@ -209,66 +226,70 @@ export default function Laudo(props) {
                         )}
                     />
 
-                </div>
-                <div className="tenpercent">
-                    <Controller
-                        name="collected_on"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <>
-                            <label>LOCAL DA COLETA</label>
-                            <TextField
-                            variant="outlined"
-                            InputProps={{ sx: { borderRadius: "10px" } }}
-                            style={{ minWidth: "100%", marginTop: "15px" }}
-                            id="outlined-static"
-                            label="Local de coleta da amostra"
-                            size="small"
-                            {...field}
-                            />
-                            </>
-                        )}
-                    />
-                </div>
+
+                    
+                        <Controller
+                            name="collected_on"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <>
+                                    <label >LOCAL DA COLETA</label>
+                                    <Select
+                                    className="formitem"
+                                    sx={{ borderRadius: "10px" }}
+
+                                    id="demo-simple-select"
+                                    size="small"
+
+                                    {...field}
+                                >
+                                    {cities.map((city) => (
+                                        <MenuItem value={city.title}>{city.title}</MenuItem>
+                                    ))}
+                                </Select>
+                                </>
+                            )}
+                        />
+                    
 
 
-                <div className="tenpercent">
-                
+
+
                     <Controller
                         name="collected_at"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
                             <>
-                            <label>DATA DA COLETA</label>
-                            <DatePicker
-                                label="Date"
-                                value={field.value}
-                                inputRef={field.ref}
-                                onChange={(date) => {
-                                    field.onChange(date);
-                                }}
-                                renderInput={(props) => (
-                                    // Customize the input field here if needed
-                                    <TextField {...props} />
-                                )}
-                            />
+                                <label style={{ display: "flex", justifyContent: "flex-start", alignContent: "center" }}>DATA DA COLETA</label>
+                                <DatePicker
+                                    className="formitem"                                                                  
+                                    value={field.value}
+                                    inputRef={field.ref}
+                                    onChange={(date) => {
+                                        field.onChange(date);
+                                    }}
+                                    renderInput={(props) => (
+                                        // Customize the input field here if needed
+                                        <TextField {...props} />
+                                    )}
+                                />
                             </>
                         )}
                     />
-                </div>
 
 
-                <div className="tenpercent">
-                
+
+
+
                     <Controller
                         name="collect_type"
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
                             <>
-                                <label>TIPO DE COLETA</label>
+                                <label style={{ display: "flex", justifyContent: "flex-start", alignContent: "center" }}>INTEREÇADO</label>
                                 <Select
                                     className="formitem"
                                     sx={{ borderRadius: "10px" }}
@@ -278,14 +299,39 @@ export default function Laudo(props) {
 
                                     {...field}
                                 >
-                                    {sectors.map((sec) => (
-                                        <MenuItem value={sec.sectoraka}>{sec.sectoraka}</MenuItem>
+                                    {colectInterested.map((interested) => (
+                                        <MenuItem value={interested.enter_aka}>{interested.enter_aka}</MenuItem>
                                     ))}
                                 </Select>
                             </>
                         )}
                     />
-                </div>
+
+
+                    <Controller
+                        name="collect_type"
+                        control={control}
+                        defaultValue=""
+                        render={({ field }) => (
+                            <>
+                                <label style={{ display: "flex", justifyContent: "flex-start", alignContent: "center" }}>TIPO DE COLETA</label>
+                                <Select
+                                    className="formitem"
+                                    sx={{ borderRadius: "10px" }}
+
+                                    id="demo-simple-select"
+                                    size="small"
+
+                                    {...field}
+                                >
+                                    {colectTypes.map((type) => (
+                                        <MenuItem value={type.ct_name}>{type.ct_name}</MenuItem>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
+                    />
+
                 </div>
                 <br></br>
                 <hr></hr>
@@ -323,7 +369,7 @@ export default function Laudo(props) {
                         </div>
                     ))}
 
-                    <Controller
+                    {/* <Controller
                         name={'sector'}
                         control={control}
                         defaultValue=""
@@ -345,24 +391,27 @@ export default function Laudo(props) {
                                 </Select>
                             </>
                         )}
-                    />
+                    /> */}
 
                     <Controller
                         name={'notes'}
                         control={control}
                         defaultValue=""
                         render={({ field }) => (
+                            <>
+                            <label>NOTA</label>
                             <TextField
                                 className="formitem"
                                 InputProps={{ sx: { borderRadius: "10px" } }}
 
                                 id="outlined-multiline-static"
-                                label="Nota"
+                                // label="Nota"
                                 multiline
                                 rows={4}
                                 defaultValue="Default Value"
                                 {...field}
                             />
+                            </>
                         )}
                     />
                 </div>

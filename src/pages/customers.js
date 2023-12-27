@@ -188,7 +188,7 @@ const useCustomerIds = (customers) => {
                   </Button>
                 </Stack> */}
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   onClick={()=>{toggleVisible()}}
                   startIcon={(
@@ -200,7 +200,7 @@ const useCustomerIds = (customers) => {
                 >
                   Criar
                 </Button>
-              </div>
+              </div> */}
             </Stack>
 
             <div className="slide-in-element" style={{marginLeft: '20%', display: `${isVisible}`}}>

@@ -1,3 +1,5 @@
+@import url("react-toastify/dist/ReactToastify.css");
+
 .styled-table {
     border-collapse: collapse;
     margin: 20px 0;
@@ -247,3 +249,126 @@ h1{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* NOTIFICAÇÕES*/
+
+
+
+
+.notifybody {
+  width: 900px;
+  margin: 8px auto;
+}
+.notifycontainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notifyfiltrar-notificacoes {
+  width: 250px;
+  padding: 9px;
+  border-radius: 5px;
+}
+
+.notifycontainer h1 {
+  padding: 10px;
+  border-bottom: 5px solid #6366f1;
+}
+
+.notifyitem-notificacao {
+  position: relative;
+  display: flex;
+  border: 1px solid #ccc;
+  padding: 5px;
+  align-items: center;
+}
+
+.notifyitem-notificacao:hover {
+  background-color: rgb(241, 241, 241);
+  border-left: 4px solid #6366f1;
+}
+
+.notifyavatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.notifyconteudo-notif, .avatar {
+  padding: 5px;
+  margin: 5px;
+}
+
+.notifytime {
+  text-align: end;
+  margin-left: auto;
+  font-size: smaller;
+  opacity: 0.9;
+}
+
+.notifyconfig {
+  display: inline;
+  position: absolute;
+  right: 1em;
+  height: 25px;
+  cursor: pointer;
+}
+
+.notifyconfig:hover {
+  background-color: rgba(0, 162, 255, 0.5);
+  border-radius: 50%;
+}
+
+#time-icon {
+  font-size: medium;
+  position: absolute;
+  bottom: 15px;
+  right: 138px;
+}
+
+.notifyopcoes {
+  border-radius: 5px;
+  list-style: none;
+  margin: 5px;
+  border: 1px solid black;
+  padding: 5px;
+  font-weight: 500;
+  background-color: white;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  top: 3em;
+}
+
+.notifyopcoes::before {
+  content: '';
+  position: absolute;
+  top: -0.7rem;
+  right: 0.7em;
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
+  background-color: white;
+  border-left: 1px solid black;
+  border-top: 1px solid black;
+}
+
+.notifyopcoes li:hover {
+  cursor: pointer;
+  border-bottom: 2px solid black;
+}

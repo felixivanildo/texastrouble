@@ -5,10 +5,8 @@ import { SettingsNotifications } from 'src/sections/settings/settings-notificati
 import { SettingsPassword } from 'src/sections/settings/settings-password';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import axios from 'axios';
-
-import CadastrarCidade from './formularios/cadastratCidade';
-import CantonadastrarPredio from './formularios/cadastrarPredio';
-
+import CadastrarUnidadeOrganizacional from './formularios/cadastrarUnidade';
+import CadastrarTipoColeta from './formularios/cadastrartTipoColeta';
 
 
 
@@ -31,12 +29,12 @@ const Page = () => {
                 <Container maxWidth="lg">
                     <Stack spacing={3}>
                         <Typography variant="h4">
-                        PRÉDIO
+                            TIPO DE COLETA
                         </Typography>
                         {/* <SettingsNotifications />
             <SettingsPassword /> */}
                         <div >
-                           <CantonadastrarPredio/>
+                           <CadastrarTipoColeta></CadastrarTipoColeta>
                         </div>
                     </Stack>
                 </Container>

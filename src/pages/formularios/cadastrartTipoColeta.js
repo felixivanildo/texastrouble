@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import axios from "axios";
 
-export default function CadastrarInterecado() {
+export default function CadastrarTipoColeta() {
     const {
         register,
         handleSubmit,
@@ -16,16 +16,16 @@ export default function CadastrarInterecado() {
     } = useForm();
 
     const handleSubmitData = async (data) => {
-
+        
         try {
-            await axios.post('http://10.254.4.132:3010/api/cadastrar', { dados: data, mode: "interecado" }).then((e) => {
+            await axios.post('http://10.254.4.132:3010/api/cadastrar', {dados: data, mode: "coleta"}).then((e)=>{
                 alert(e.data.message)
             })
             reset({ nomeUnidadeOrg: "" });
         } catch (error) {
-            alert(error)
+           alert(error) 
         }
-
+       
     }
 
     return (
@@ -40,48 +40,37 @@ export default function CadastrarInterecado() {
                 boxSizing: 'border-box',
             }}
         >
-            <h2>Cadastrar Intereçado</h2>
+            <h2>Cadastrar Tipo de Coleta</h2>
             <form onSubmit={handleSubmit(handleSubmitData)}>
                 <TextField
-                    {...register("nomeEmpresa", { required: true })}
-                    error={!!errors.nomeEmpresa}
-                    helperText={errors.nomeEmpresa ? 'Não pode ficar vazio' : ''}
-                    id="nome-unidade-org"
-                    label="Nome da Empresa"
-                    variant="outlined"
-                    margin="normal"
-                    fullWidth
-                />
-
-                <TextField
-                    {...register("nomeAbreviado", { required: true })}
-                    error={!!errors.nomeAbreviado}
-                    helperText={errors.nomeAbreviado ? 'Não pode ficar vazio' : ''}
-                    id="nome-unidade-org"
-                    label="Nome Abreviado"
-                    variant="outlined"
-                    margin="normal"
+                    {...register("nomeColeta", { required: true })}
+                    error={!!errors.nomeColeta}
+                    helperText={errors.nomeColeta ? 'Não pode ficar vazio' : ''}
+                    id="nome-unidade-org" 
+                    label="Tipo de Coleta" 
+                    variant="outlined" 
+                    margin="normal" 
                     fullWidth
                 />
 
                 <Controller
-                    name="switchFieldName"
+                    name="switchFieldName" 
                     control={control}
                     defaultValue={true}
                     render={({ field: { value, ...field } }) => (
                         <FormControlLabel
                             {...field}
                             checked={value}
-                            control={<Switch />}
-                            label="Ativa para uso"
+                            control={<Switch/>}
+                            label="Ativa para uso" 
                         />
                     )}
                 />
 
                 <Button
-                    type="submit"
-                    size="large"
-                    variant="contained"
+                    type="submit" 
+                    size="large" 
+                    variant="contained" 
                     fullWidth
                     style={{ marginTop: 10 }}
                 >

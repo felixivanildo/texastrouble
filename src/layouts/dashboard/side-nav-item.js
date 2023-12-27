@@ -353,7 +353,7 @@ export const SideNavItem = (props) => {
           <br/>
           <Button href='/cadastrarinterecado'>Cadastrar Intereçado</Button>
           <br/>
-          <Button href='/cadastrarunidade'>Cadastrar Tipo de Coleta</Button>
+          <Button href='/cadastrartipocoleta'>Cadastrar Tipo de Coleta</Button>
         </div>
 
       }

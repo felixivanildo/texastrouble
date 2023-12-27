@@ -96,8 +96,9 @@ const DataComponent = ({ onAdd, reponame, id, files }) => {
                           "extension": img.extension,
                           "reponame": reponame
                         }).then((e)=>{
-                            updateShown()
+                            
                             onAdd()
+                            updateShown()
                         });
                       });
                       
@@ -108,6 +109,7 @@ const DataComponent = ({ onAdd, reponame, id, files }) => {
                         setSelectedImage(`${files.length} arquivos escolhidos`)
                     }
                     onAdd()
+                    updateShown()
                 };
                 
             reader.readAsDataURL(files[i]);
